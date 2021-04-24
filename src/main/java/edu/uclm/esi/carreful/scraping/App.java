@@ -122,8 +122,10 @@ public class App
 
 
 		categoriaDao.save(categoria);
-
-		return "Productos cargador de cargado "+cate;
+		driver.close();
+		driver.quit();
+		
+		return "Productos cargados de categoria "+cate;
 
 
 	}
