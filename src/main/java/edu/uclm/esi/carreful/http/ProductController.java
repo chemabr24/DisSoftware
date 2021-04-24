@@ -48,7 +48,7 @@ public class ProductController extends CookiesController {
 	
 	@GetMapping("/getPrecio/{nombre}")
 	
-	public String getPrecio(@PathVariable String nombre) {
+	public double getPrecio(@PathVariable String nombre) {
 		try {
 			Optional<Product> optProduct = productDao.findById(nombre);
 			if (optProduct.isPresent())

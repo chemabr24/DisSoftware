@@ -10,25 +10,22 @@ public class Carrito {
 		this.products = new HashMap<>();
 	}
 
-
-	public void add(Product product, int amount) {
+	public void add(Product product, double amount) {
 		OrderedProduct orderedProduct = this.products.get(product.getNombre());
-		if(orderedProduct==null) {
+		if (orderedProduct==null) {
 			orderedProduct = new OrderedProduct(product, amount);
 			this.products.put(product.getNombre(), orderedProduct);
-		}else {
+		} else {
 			orderedProduct.addAmount(amount);
 		}
 	}
-
 
 	public Collection<OrderedProduct> getProducts() {
 		return products.values();
 	}
 
-
-	public void setProducts(HashMap<String, OrderedProduct> products) {
-		this.products = products;
+	public Long getImporte() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }
