@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -15,6 +16,8 @@ public class Product {
 	private double precio;
 	private int stock;
 	private boolean congelado;
+	@Lob
+	private String foto;
 	@ManyToOne
 	private Categoria categoria;
 	
@@ -68,6 +71,14 @@ public class Product {
 
 	public void setCongelado(boolean congelado) {
 		this.congelado = congelado;
+	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 }
 
