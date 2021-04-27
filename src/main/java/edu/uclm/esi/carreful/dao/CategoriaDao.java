@@ -10,5 +10,5 @@ import edu.uclm.esi.carreful.model.Categoria;
 @Repository
 public interface CategoriaDao extends JpaRepository <Categoria, String> {
 
-
+	Categoria findByNombre(String nombre);
 }

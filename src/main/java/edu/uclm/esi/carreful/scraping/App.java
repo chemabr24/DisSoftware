@@ -1,5 +1,9 @@
 package edu.uclm.esi.carreful.scraping;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -9,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -28,10 +33,6 @@ import edu.uclm.esi.carreful.dao.ProductDao;
 import edu.uclm.esi.carreful.model.Categoria;
 import edu.uclm.esi.carreful.model.Product;
 
-/**
- * Hello world!
- *
- */
 @Component
 public class App
 {
@@ -89,7 +90,7 @@ public class App
 
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("headless");
-		options.addArguments("window-size=1400,800");       
+		options.addArguments("--start-maximized");
 		options.addArguments("disable-gpu");
 
 		WebDriver driver = new ChromeDriver(options);   
@@ -105,24 +106,25 @@ public class App
 		int paginas = Integer.parseInt(texto);
 		WebElement siguiente;
 
-		Categoria categoria = new Categoria();
-		categoria.setNombre(cate);
-		categoriaDao.save(categoria);
-		
+		Categoria categoria = categoriaDao.findByNombre(cate);
+		if(categoria == null) {
+			categoria = new Categoria();
+			categoria.setNombre(cate);
+			categoriaDao.save(categoria);
+		}
 		procesarPagina(driver, categoria);
 		siguiente = driver.findElement(By.className("pagination__row"));
-		siguiente = siguiente.findElement(By.tagName("a"));
-		siguiente.click();
+		siguiente.findElement(By.tagName("a")).click();;
 
 		for (int i=1; i<paginas; i++) {
 			procesarPagina(driver, categoria);
 			driver.findElement(By.cssSelector(".pagination__next")).click();
 		}
-			
+
 		categoriaDao.save(categoria);
 		driver.close();
 		driver.quit();
-		
+
 		return "Productos cargados de "+cate;
 
 
@@ -130,64 +132,87 @@ public class App
 
 	private void procesarPagina(WebDriver driver, Categoria categoria) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(0, 1000)");
-        try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-		}
-        js.executeScript("window.scrollTo(0, 1500)");
-        try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-		}
-        js.executeScript("window.scrollTo(0, 2000)");
-        try {
+		js.executeScript("window.scrollTo(0, 2000)");
+		try {
 			Thread.sleep(800);
 		} catch (InterruptedException e) {
 		}
-        WebElement divCardList = driver.findElement(By.className("product-card-list"));
+		js.executeScript("window.scrollTo(0, 2000)");
+		try {
+			Thread.sleep(800);
+		} catch (InterruptedException e) {
+		}
+		js.executeScript("window.scrollTo(0, 2000)");
+		try {
+			Thread.sleep(800);
+		} catch (InterruptedException e) {
+		}
+		WebElement divCardList = driver.findElement(By.className("product-card-list"));
 		List<WebElement> divProductos = divCardList.findElements(By.className("product-card__parent"));
 		for (WebElement divProducto : divProductos) {
 			try {
-				List<WebElement> spanesPrecio = divProducto.findElements(By.className("product-card__price"));
-				String precio;
-				WebElement spanPrecio;
-
-				if(spanesPrecio.size()>0) {
-					spanPrecio = divProducto.findElement(By.className("product-card__price"));
-				}else {
-					spanPrecio = divProducto.findElement(By.className("product-card__price--current"));
-				}
-				
-				precio = spanPrecio.getText().replace("€", "").replace(",", ".");
 				WebElement h2 = divProducto.findElement(By.tagName("h2"));
 				String nombre = h2.getText();
-				Boolean congelado = false;
-				try {
-					WebElement ol = divProducto.findElement(By.className("product-card__info-tag"));
-					String con = ol.getText();
-					if(con.equals("CONGELADO")) {
-						congelado = true;
+					List<WebElement> spanesPrecio = divProducto.findElements(By.className("product-card__price"));
+					String precio;
+					WebElement spanPrecio;
+	
+					if(spanesPrecio.size()>0) {
+						spanPrecio = divProducto.findElement(By.className("product-card__price"));
+					}else {
+						spanPrecio = divProducto.findElement(By.className("product-card__price--current"));
 					}
-				} catch (Exception e) {
-				
-				}
-				WebElement img = divProducto.findElement(By.tagName("img"));
-				String urlImage = img.getAttribute("src");   
+	
+					precio = spanPrecio.getText().replace("€", "").replace(",", ".");
 					
-				Product prod = new Product();
-				prod.setNombre(nombre);
-				prod.setPrecio(Double.parseDouble(precio));
-				prod.setCategoria(categoria);
-				prod.setStock(rn.nextInt(20));
-				prod.setCongelado(congelado);
-				prod.setFoto(urlImage);
-				productDao.save(prod);
-				categoria.addProd();
+					Boolean congelado = false;
+					try {
+						WebElement ol = divProducto.findElement(By.className("product-card__info-tag"));
+						String con = ol.getText();
+						if(con.equals("CONGELADO")) {
+							congelado = true;
+						}
+					} catch (Exception e) {
+	
+					}
+					WebElement img = divProducto.findElement(By.tagName("img"));
+					String urlImage = img.getAttribute("src");   
+	
+					String base64F = convertUrlBase64(urlImage);
+					Product prod = new Product();
+					prod = new Product();
+					prod.setNombre(nombre);
+					prod.setPrecio(Double.parseDouble(precio));
+					prod.setCategoria(categoria);
+					prod.setStock(rn.nextInt(20));
+					prod.setCongelado(congelado);
+					prod.setFoto("data:image/jpg;base64, "+base64F);
+					if(base64F!=null) {
+						productDao.save(prod);
+						categoria.addProd();
+					}
 			} catch (Exception e) {
 			}
 		}
-		
+
+	}
+
+	private String convertUrlBase64(String imageUrl)  {
+		try {
+			URL imageUrl1 = new URL(imageUrl);
+			URLConnection ucon = imageUrl1.openConnection();
+			InputStream is = ucon.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int read = 0;
+			while ((read = is.read(buffer, 0, buffer.length)) != -1) {
+				baos.write(buffer, 0, read);
+			}
+			baos.flush();
+			return Base64.encodeBase64String(baos.toByteArray());
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 }
