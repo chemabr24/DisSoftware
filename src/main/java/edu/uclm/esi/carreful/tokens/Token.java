@@ -21,6 +21,7 @@ public class Token {
 		this.id = UUID.randomUUID().toString();
 		this.email = email;
 		this.date = System.currentTimeMillis();
+		this.used = false;
 	}
 
 	public String getId() {

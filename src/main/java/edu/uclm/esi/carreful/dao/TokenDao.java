@@ -10,5 +10,7 @@ import edu.uclm.esi.carreful.tokens.Token;
 
 @Repository
 public interface TokenDao extends JpaRepository <Token, String> {
+
+	Token findByEmail(String email);
 	
 }
