@@ -35,19 +35,22 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Precio</th>
+						<th>Imagen</th>
 						<th></th>
 						<th></th>
 					</tr>
 					<!--  ko foreach : productos  -->
 						<tr>
 							<td data-bind="html: nombre"></td> 
-							<td data-bind="html: precio"></td> 
+							<td data-bind="html: precio"></td>
+							<img width="160px" height="160px" data-bind="attr:{src: foto}" /> 
 							<td>
 								<button data-bind="click : function() { $parent.eliminarProducto(nombre); }">Eliminar</button>
 							</td> 
 							<td>
 								<button data-bind="click : function() { $parent.addAlCarrito(nombre); }">Aniadir al carrito</button>
 							</td> 
+							<oj-paging-control id="paging" data="[[pagingDataProvider]]" page-size="10" slot="bottom">
 						</tr>
 					<!--  /ko -->
 				</table>

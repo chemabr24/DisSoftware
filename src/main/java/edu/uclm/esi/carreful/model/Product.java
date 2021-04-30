@@ -1,14 +1,29 @@
 package edu.uclm.esi.carreful.model;
 
+import java.util.UUID;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
-	@Id
+	@Id @Column(length = 36)
+	private String id;
 	private String nombre;
-	private String precio;
-	private String codigo;
+	private double precio;
+	private int stock;
+	private boolean congelado;
+	@Lob
+	private String foto;
+	@ManyToOne
+	private Categoria categoria;
+	
+	public Product() {
+		this.id = UUID.randomUUID().toString();
+	}
 	
 	public String getNombre() {
 		return nombre;
@@ -18,19 +33,52 @@ public class Product {
 		this.nombre = nombre;
 	}
 	
-	public String getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 	
-	public void setPrecio(String precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 	
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public String getId() {
+		return id;
 	}
 	
-	public String getCodigo() {
-		return codigo;
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public boolean isCongelado() {
+		return congelado;
+	}
+
+	public void setCongelado(boolean congelado) {
+		this.congelado = congelado;
+	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 }
+

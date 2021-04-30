@@ -58,20 +58,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				type: "get",
 				contentType: 'application/json',
 				success: function (response) {
-					self.productos(response);
-					// ya no hace falta por el $parent
-//					for (let i=0; i<response.length; i++){
-//						let objetito = {
-//							nombre : response[i].nombre,
-//							precio : response[i].precio,
-//							eliminar : function(){
-//								self.eliminarProducto(response[i].nombre);
-//							}
-//						};
-//						self.productos.push(objetito);
-//					}
-//					
-//						
+					self.productos(response);					
 				},
 				error: function (response) {
 					self.error(response.responseJSON.errorMessage);
