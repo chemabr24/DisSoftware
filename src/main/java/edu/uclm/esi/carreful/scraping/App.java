@@ -45,7 +45,7 @@ public class App
 
 	private Random rn = new Random();
 
-	@EventListener(ContextRefreshedEvent.class)
+	//@EventListener(ContextRefreshedEvent.class)
 	public void chargechar() {
 		List<CompletableFuture<String>> futuresList = new ArrayList<CompletableFuture<String>>();
 		CompletableFuture<String> cat1 = CompletableFuture.supplyAsync(()->(charge("https://www.carrefour.es/supermercado/el-mercado-carniceria/F-10flZ12bl/c", "Carniceria")));

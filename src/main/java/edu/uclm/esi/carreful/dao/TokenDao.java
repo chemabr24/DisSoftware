@@ -1,5 +1,6 @@
 package edu.uclm.esi.carreful.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,6 @@ import edu.uclm.esi.carreful.tokens.Token;
 @Repository
 public interface TokenDao extends JpaRepository <Token, String> {
 
-	Token findByEmail(String email);
+	List<Token> findByEmail(String email);
 	
 }

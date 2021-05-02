@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-
-
 import edu.uclm.esi.carreful.dao.TokenDao;
 import edu.uclm.esi.carreful.dao.UserDao;
 import edu.uclm.esi.carreful.model.User;
@@ -34,81 +32,75 @@ import edu.uclm.esi.carreful.tokens.Token;
 public class UserController extends CookiesController {
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	TokenDao tokenDao;
-	
-	
+
 	@GetMapping("/usarToken/{tokenId}")
-	public void usarToken(HttpServletResponse response, HttpServletRequest request,@PathVariable String tokenId) throws IOException {
+	public void usarToken(HttpServletResponse response, HttpServletRequest request, @PathVariable String tokenId)
+			throws IOException {
 		Optional<Token> optToken = tokenDao.findById(tokenId);
-		if(optToken.isPresent()) {
+		if (optToken.isPresent()) {
 			Token token = optToken.get();
-			if(token.isUsed())		
+			if (token.isUsed())
 				response.sendError(409, "El token ya se utilizó");
-			else {
-		request.getSession().setAttribute("token", tokenId);
-		response.sendRedirect("http://localhost:8080?ojr=setNewPassword");
+			else if (token.checkTime()) {
+				response.sendError(409, "El token ha expirado");
+			} else {
+				request.getSession().setAttribute(Messages.getString("UserController.1"), tokenId);
+				response.sendRedirect("http://localhost:8080?ojr=setNewPassword");
 			}
-		}else {
+		} else {
 			response.sendError(404, "El token no existe");
 		}
 	}
-	
+
 	@PostMapping("/resetPwd")
-	public void resetPwd(HttpServletRequest request,  @RequestBody Map<String, Object> info) throws Exception {
+	public void resetPwd(HttpServletRequest request, @RequestBody Map<String, Object> info) throws Exception {
 		JSONObject jso = new JSONObject(info);
 		String tokenId = (String) request.getSession().getAttribute("token");
 		Optional<Token> token = tokenDao.findById(tokenId);
-		if(token.isPresent()) {
-			if(!token.get().isUsed()) {
-			Token tkn = token.get();
-			String email = tkn.getEmail();
-			User user = userDao.findByEmail(email);
-			final String pwd1 = jso.optString("pwd1");
-			final String pwd2 = jso.optString("pwd2");
-			String rqpwd = requisitosPwd(pwd1, pwd2);
-			if(!rqpwd.equals("")) {
-				throw new Exception(rqpwd);
+		if (token.isPresent()) {
+			if (!token.get().isUsed() || token.get().checkTime()) {
+				Token tkn = token.get();
+				String email = tkn.getEmail();
+				User user = userDao.findByEmail(email);
+				final String pwd1 = jso.optString(Messages.getString("UserController.0"));
+				final String pwd2 = jso.optString(Messages.getString("UserController.2"));
+				String rqpwd = requisitosPwd(pwd1, pwd2);
+				if (!rqpwd.equals("")) {
+					throw new Exception(rqpwd);
+				}
+				user.setPwd(jso.getString("pwd1"));
+				userDao.save(user);
+				request.getSession().removeAttribute("token");
+				tkn.setUsed(true);
+				tokenDao.save(tkn);
+			} else {
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "Token usado o expirado");
 			}
-			user.setPwd(jso.getString("pwd1"));
-			userDao.save(user);
-			request.getSession().removeAttribute("token");
-			tkn.setUsed(true);
-			tokenDao.save(tkn);
-			}else {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "Token ya usado");
-			}
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Token invalido");
 		}
 	}
-	
+
 	@GetMapping("/recoverPwd")
 	public void recoverPwd(@RequestParam String email) {
 		try {
 			User user = userDao.findByEmail(email);
-			if(user!=null) {
-				Token token = tokenDao.findByEmail(email);
-				if(token == null || token.isUsed()) {
-					token = new Token(email);
-					tokenDao.save(token);
-				}
+			if (user != null) {
+				Token token = new Token(email);
+				tokenDao.save(token);
 				Email smtp = new Email();
-				String texto = "Para recuperar tu contraseña, pulsa " +
-						"<a href='http://localhost:8080/user/usarToken/" + token.getId() + "'>aquí</a>";
+				String texto = "Para recuperar tu contraseña, pulsa " + "<a href='http://localhost:8080/user/usarToken/"
+						+ token.getId() + "'>aquí</a>";
 				smtp.send(email, "Carreful: recuperacion de contraseña", texto);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
 		}
 	}
-	
-//	@GetUsuario("/getUser")
-//	public Usuario getUser() {
-//		
-//	}
-	
+
 	@PostMapping("/login")
 	public void login(HttpServletRequest request, @RequestBody Map<String, Object> info) {
 		try {
@@ -117,11 +109,11 @@ public class UserController extends CookiesController {
 			if (email.length() == 0)
 				throw new Exception("Debes introducir un email");
 			String pwd = jso.getString("pwd");
-			User user = userDao.findByEmailAndPwd(email,DigestUtils.sha512Hex(pwd));
-			if (user==null)
+			User user = userDao.findByEmailAndPwd(email, DigestUtils.sha512Hex(pwd));
+			if (user == null)
 				throw new Exception("Credenciales invalidas");
 			request.getSession().setAttribute("userEmail", email);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
 		}
 
@@ -140,7 +132,7 @@ public class UserController extends CookiesController {
 			final String pwd1 = jso.optString("pwd1");
 			final String pwd2 = jso.optString("pwd2");
 			String rqpwd = requisitosPwd(pwd1, pwd2);
-			if(!rqpwd.equals("")) {
+			if (!rqpwd.equals("")) {
 				throw new Exception(rqpwd);
 			}
 			final User user = new User();
@@ -152,12 +144,10 @@ public class UserController extends CookiesController {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
 		}
 	}
-	
+
 	private String requisitosPwd(String pwd1, String pwd2) {
-		
 		if (pwd1.length() == 0)
 			return "Debes introducir una contraseña";
-		
 		if (pwd2.length() == 0)
 			return "Debes introducir la contraseña otra vez";
 		if (!pwd1.equals(pwd2))
@@ -168,4 +158,3 @@ public class UserController extends CookiesController {
 	}
 
 }
-
