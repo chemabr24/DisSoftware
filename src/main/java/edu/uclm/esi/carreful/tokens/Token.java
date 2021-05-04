@@ -1,5 +1,7 @@
 package edu.uclm.esi.carreful.tokens;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -12,7 +14,7 @@ public class Token {
 	@Column(length = 36)
 	private String id;
 	private String email;
-	private long date;
+	private LocalTime date;
 	private boolean used;
 	
 	public Token() { }
@@ -20,7 +22,8 @@ public class Token {
 	public Token(String email) {
 		this.id = UUID.randomUUID().toString();
 		this.email = email;
-		this.date = System.currentTimeMillis();
+		this.date =  LocalTime.now();
+		this.used = false;
 	}
 
 	public String getId() {
@@ -39,11 +42,11 @@ public class Token {
 		this.email = email;
 	}
 
-	public long getDate() {
+	public LocalTime getDate() {
 		return date;
 	}
 
-	public void setDate(long date) {
+	public void setDate(LocalTime date) {
 		this.date = date;
 	}
 
@@ -53,6 +56,10 @@ public class Token {
 
 	public void setUsed(boolean used) {
 		this.used = used;
+	}
+	
+	public boolean checkTime() {
+		return Math.abs(Duration.between(LocalTime.now(), this.date).toMinutes()) > 5000.0;
 	}
 	
 	
