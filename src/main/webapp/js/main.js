@@ -48,7 +48,13 @@
   "proj4":"libs/proj4js/dist/proj4-src",
   "css":"libs/require-css/css",
   "css-builder":"libs/require-css/css-builder",
-  "normalize":"libs/require-css/normalize"
+  "normalize":"libs/require-css/normalize",
+  "jquery.bootstrap": "libs/bootstrap/bootstrap.bundle.min"
+},
+  shim:{
+    "jquery.bootstrap": {
+      deps: ["jquery"]
+  }
 }
 
 // endinjector
@@ -63,7 +69,7 @@
  * object in the callback
  */
 require(['ojs/ojbootstrap', 'knockout', 'appController', 'ojs/ojlogger', 'ojs/ojknockout',
-'ojs/ojmodule',  'ojs/ojnavigationlist'],
+'ojs/ojmodule',  'ojs/ojnavigationlist', "jquery", "jquery.bootstrap"],
   function (Bootstrap, ko, app, Logger) { // this callback gets executed when all required modules are loaded
 
     Bootstrap.whenDocumentReady().then(
