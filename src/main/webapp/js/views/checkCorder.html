@@ -1,22 +1,20 @@
-
-	<div class="container-fluid">
-		<header role="banner" class="oj-hybrid-applayout-header">
-			<oj-module config="[[headerConfig]]"></oj-module>
-		</header>
+<div class="container-fluid">
+	<header role="banner" class="oj-hybrid-applayout-header">
+		<oj-module config="[[headerConfig]]"></oj-module>
+	</header>
+</div>
+<!-- This is where your main page content will be loaded -->
+<div class="center checkCorder">
+	<div class="justify-content-md-center ">
+		<input type="text" class="input" placeholder="Introduzca id del pedido" data-bind="value : corderid">
+		<button id="btnCheckCorder" class="btn btn-primary" data-bind="click : checkCorder">Comprobar
+			pedido</button>
+		<div class="oj-sm-12" data-bind="html : message" style="color : blue">
+		</div>
+		<div class="oj-sm-12" data-bind="html : error" style="color : red">
+		</div>
 	</div>
-	<!-- This is where your main page content will be loaded -->
-	<div class="center checkCorder">
-			<div class="justify-content-md-center ">
-				<input type="text" class="input" placeholder="Introduzca id del pedido"
-				 data-bind="value : corderid">
-				<button id="btnCheckCorder" class="btn btn-primary" data-bind="click : checkCorder">Comprobar
-					pedido</button>
-				<div class="oj-sm-12" data-bind="html : message" style="color : blue">
-				</div>
-				<div class="oj-sm-12" data-bind="html : error" style="color : red">
-				</div>
-			</div>	
-			<div class="container-fluid checkCorder" data-bind="visible: shouldShow">
-				<span data-bind="text: estado"></span>
-			</div>
+	<div class="container-fluid checkCorder" data-bind="visible: shouldShow">
+		<span data-bind="text: estado"></span>
 	</div>
+</div>
