@@ -32,29 +32,30 @@
 				</div>
 
 				<table>
-					<tr>
-						<th>Nombre</th>
-						<th>Precio</th>
-						<th>Imagen</th>
-						<th></th>
-						<th></th>
-					</tr>
+				
+						
 					<!--  ko foreach : productos  -->
 						<tr>
-							<td data-bind="html: nombre"></td> 
-							<td data-bind="html: precio"></td>
-							<img width="160px" height="160px" data-bind="attr:{src: foto}" /> 
-							<td>
-								<button data-bind="click : function() { $parent.eliminarProducto(nombre); }">Eliminar</button>
-							</td> 
-							<td>
-								<button data-bind="click : function() { $parent.addAlCarrito(nombre); }">Aniadir al carrito</button>
-							</td> 
-							<oj-paging-control id="paging" data="[[pagingDataProvider]]" page-size="10" slot="bottom">
+							<div class="card" style="width: 18rem;">
+								<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
+								<div class="card-body">
+									<label data-bind="html: nombre"></label>
+									<label data-bind="html: precio" >€€€€</label>
+									<div></div>
+									<button data-bind="click : function() { $parent.addAlCarrito(nombre); }" mat-flat-button color="green"
+										class="btn btn-primary">Aniadir</button>
+									<button data-bind="click : function() { $parent.eliminarProducto(nombre); }" mat-flat-button color="red"
+										class="btn btn-primary">Eliminar</button>
+								</div>
+							</div>
 						</tr>
 					<!--  /ko -->
+							
+					
+					
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
+
