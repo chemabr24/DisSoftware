@@ -1,13 +1,9 @@
 define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
-		'jquery' ], function(ko, app, moduleUtils, accUtils, $) {
+		'jquery', 'twbsPagination' ], function(ko, app, moduleUtils, accUtils, $) {
 
 	class ProductViewModel {
 		constructor() {
 			var self = this;
-			
-			self.nombre = ko.observable("Detergente");
-			self.precio = ko.observable("8,50 €");
-
 			self.productos = ko.observableArray([]);
 			self.carrito = ko.observableArray([]);
 
@@ -28,6 +24,25 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				})
 			})
 		}
+
+		paginacion() {
+			$('#pagination').twbsPagination({
+				currentPage: page.currentPage,
+				totalPages: Math.ceil(page.totalCount/page.pageSize),
+				startPage: 1,
+				visiblePages: 7,
+				first: "Home",
+						 last: "No pages",
+						 prev: 'Previous',
+						 next: 'Next',
+				initiateStartPageClick: false,
+				onPageClick: function (event, page) {
+					$('#page-content').text('Page ' + page);
+					User.getList(page,User.param);
+				}
+			});
+			 
+			}
 
 		add() {
 			var self = this;
@@ -109,6 +124,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			accUtils.announce('Login page loaded.');
 			document.title = "Login";
 			this.getProductos();
+			this.paginacion();
 
 		};
 

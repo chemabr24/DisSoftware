@@ -1,61 +1,32 @@
-<div class="oj-hybrid-applayout-page">
-	<div class="oj-applayout-fixed-top">
-		<header role="banner" class="oj-hybrid-applayout-header">
-			<oj-module config="[[headerConfig]]"></oj-module>
-		</header>
-	</div>
-	<!-- This is where your main page content will be loaded -->
-	<div class="oj-applayout-content">
-		<div role="main" class="oj-hybrid-applayout-content">
-			<div class="oj-hybrid-padding">
-				<h1>Producto</h1>
-			<table>
-				<tr>
-					<th>Unidades</th><th>Producto</th>
-				</tr>
-				<!--  ko foreach : carrito -->
-					<tr>
-						<td data-bind="html : amount"></td>
-						<td data-bind="html: name"></td>
-					</tr>
-				<!-- /ko -->
-			</table>
-			
-			
-			
-				<div>
-					<input type="text" data-bind="value: nombre" placeholder="Nombre del producto"> <input type="text" 
-					data-bind="value: precio" placeholder="Precio">
-					<button data-bind="click : add">Guardar producto</button>
-					<div data-bind="html : message" style="color: blue"></div>
-					<div data-bind="html : error" style="color: red"></div>
-				</div>
-
-				<table>
-				
-						
-					<!--  ko foreach : productos  -->
-						<tr>
+		
+				<div class="flex-container wrap">
+					<div class="card-box">
+						<div class="row">
+							<!--  ko foreach : productos  -->
 							<div class="card" style="width: 18rem;">
 								<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
 								<div class="card-body">
-									<label data-bind="html: nombre"></label>
-									<label data-bind="html: precio" >€€€€</label>
-									<div></div>
-									<button data-bind="click : function() { $parent.addAlCarrito(nombre); }" mat-flat-button color="green"
-										class="btn btn-primary">Aniadir</button>
-									<button data-bind="click : function() { $parent.eliminarProducto(nombre); }" mat-flat-button color="red"
-										class="btn btn-primary">Eliminar</button>
+									<p class="card-subtitle mb-2" data-bind="html: nombre"></p>
+									<label class="card-subtitle mb-2" data-bind="html: precio"></label>
+									<label>€</label>
 								</div>
+								<button raised-button data-bind="click : function() { $parent.addAlCarrito(nombre); }" mat-flat-button color="green"
+										class="btn btn-primary">Aniadir</button>
 							</div>
-						</tr>
+					
 					<!--  /ko -->
-							
-					
-					
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+							</div>
+					</div>
+					</div>
+				</div>
+				<div class="demo-paging-control-container">
+					<div class="demo-paging-control">
+					  <oj-paging-control id="pagingControl" 
+						 data="[[productos]]"
+						 page-size="0"
+						 page-options='{"type": "dots"}'>
+					  </oj-paging-control>
+					</div>
+				  </div>
+			
 
