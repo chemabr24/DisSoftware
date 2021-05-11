@@ -50,3 +50,8 @@ display: -ms-flexbox;
   -ms-flex-direction: column;
   flex-direction: column;
 }
+
+.btn-group-dropright{
+  margin-bottom: 150px;
+  margin-top: 50px;
+}
