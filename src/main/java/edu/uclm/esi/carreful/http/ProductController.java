@@ -72,7 +72,7 @@ public class ProductController extends CookiesController {
 				return productDao.findAll();
 			}else {
 				System.out.println("La categoria es: " + categoria);
-				System.out.println("y el primer producto: "+productDao.findProduct(categoria).get(0));
+				System.out.println("y el primer producto: "+ productDao.findProduct(categoria).get(0));
 				return productDao.findProduct(categoria);
 			}
 		} catch(Exception e) {

@@ -1,30 +1,39 @@
-
-<p>
-    Categorias:
-    <select data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } ">
-</p>
-
-<div class="flex-container wrap">
-	<div class="card-box">
-		<div class="row">
-			<!--  ko foreach : productos  -->
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
-				<div class="card-body">
-					<p class="card-subtitle mb-2" data-bind="html: nombre"></p>
-					<label class="card-subtitle mb-2" data-bind="html: precio"></label>
-					<label>€</label>
+<div class="oj-hybrid-applayout-page">
+	<div class="oj-applayout-fixed-top">
+		<header role="banner" class="oj-hybrid-applayout-header">
+			<oj-module config="[[headerConfig]]"></oj-module>
+		</header>
+	</div>
+	<!-- This is where your main page content will be loaded -->
+	<div class="oj-applayout-content">
+		<p>
+			Categorias:
+		<select data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
+		</p>
+		<div class="card-box">
+			<div class="row">
+				<!--  ko foreach : productos  -->
+				<div class="card" style="width: 18rem;">
+					<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
+					<div class="card-body">
+						<p class="card-subtitle mb-2" data-bind="html: nombre"></p>
+						<div data-bind="if: congelado">
+							<span class="product-card__item-info-tag" style="background-color: rgb(80, 167, 253);"></span>
+							<label class="card-subtitle mb-2">**Congelado**</label>
+						</div>
+						<label class="card-subtitle mb-2" data-bind="html: precio"></label>
+						<label>€</label>
+					</div>
+					<button raised-button data-bind="click : function() { $parent.addAlCarrito(nombre); }"
+						mat-flat-button color="green" class="btn btn-primary">Aniadir al carrito</button>
 				</div>
-				<button raised-button data-bind="click : function() { $parent.addAlCarrito(nombre); }" mat-flat-button
-					color="green" class="btn btn-primary">Aniadir al carrito</button>
-			</div>
 
-			<!--  /ko -->
+				<!--  /ko -->
+			</div>
 		</div>
 	</div>
 </div>
-</div>
-<!--<div class="demo-paging-control-container">
+	<!--<div class="demo-paging-control-container">
 	<div class="demo-paging-control">
 		<oj-paging-control id="pagingControl" data="[[productos]]" page-size="0" page-options='{"type": "dots"}'>
 		</oj-paging-control>

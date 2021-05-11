@@ -11,7 +11,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 			self.categorias = ko.observableArray(["Todos"]);
 			self.selectionChanged = function() {
-					this.getProductCategoria();
+				this.getProductCategoria();
 				
 
 				
@@ -173,8 +173,9 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		connected() {
 			accUtils.announce('Login page loaded.');
 			document.title = "Login";
+			this.getProductos();
 			this.getCategorias();
-			//this.getProductos();
+			
 			
 		//	this.paginacion();
 
