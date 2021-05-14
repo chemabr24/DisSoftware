@@ -170,7 +170,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			addAlCarrito(nombre) {
 				let self = this;
 				let data = {
-					url: "product/addAlCarrito/" + nombre,
+					url: "corder/addAlCarrito/" + nombre,
 					type: "post",
 					contentType: 'application/json',
 					success: function (response) {
@@ -186,7 +186,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 			connected() {
 				accUtils.announce('Login page loaded.');
-				document.title = "Login";
+				document.title = "Productos";
 				this.getProductos();
 				this.getCategorias();
 			};
@@ -198,9 +198,6 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			transitionCompleted() {
 				// Implement if needed
 			};
-			todos() {
-				console.log("Ha señalado TODOS");
-			}
 		}
 
 		return ProductViewModel;
