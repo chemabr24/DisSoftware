@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import edu.uclm.esi.carreful.dao.CorderDao;
+import edu.uclm.esi.carreful.model.Corder;
+import edu.uclm.esi.carreful.dao.CategoriaDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
 import edu.uclm.esi.carreful.model.Carrito;
-import edu.uclm.esi.carreful.model.Corder;
+import edu.uclm.esi.carreful.model.Categoria;
+
 import edu.uclm.esi.carreful.model.Product;
 
 @RestController
@@ -31,6 +35,8 @@ public class ProductController extends CookiesController {
 	
 	@Autowired
 	private ProductDao productDao;
+	@Autowired
+	private CategoriaDao categoriaDao;
 	
 	@Autowired
 	private CorderDao corderDao;
@@ -47,7 +53,37 @@ public class ProductController extends CookiesController {
 	@GetMapping("/getTodos")
 	public List<Product> get() {
 		try {
-			return productDao.findAll();
+			System.out.println("Ha estado aqui");
+			List<Product> productos = productDao.findAll();
+			System.out.println("El producto primero es: " + productos.get(0));
+			return productos;
+		} catch(Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+	
+	@GetMapping("/getCategorias")
+	public List<String> getCategorias() {
+		try {
+			List<String> categorias = categoriaDao.findAllNames();
+			categorias.add(0, "Todos");
+			return  categorias;
+		} catch(Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
+	
+	@GetMapping("/getProductos/{categoria}")
+	public List<Product> getProductos(@PathVariable String categoria) {
+		try {
+			System.out.println("Ha estado aqui");
+			if(categoria.equals("Todos")) {
+				return productDao.findAll();
+			}else {
+				System.out.println("La categoria es: " + categoria);
+				System.out.println("y el primer producto: "+ productDao.findProduct(categoria).get(0));
+				return productDao.findProduct(categoria);
+			}
 		} catch(Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
