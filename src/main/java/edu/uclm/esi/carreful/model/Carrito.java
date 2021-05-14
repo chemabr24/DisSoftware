@@ -19,13 +19,32 @@ public class Carrito {
 			orderedProduct.addAmount(amount);
 		}
 	}
-
-	public Collection<OrderedProduct> getProducts() {
-		return products.values();
+	
+	public void sub(Product product, int amount) {
+		OrderedProduct orderedProduct = this.products.get(product.getNombre());
+		if (orderedProduct!=null) {
+			double oPamount = orderedProduct.getAmount();
+			if(oPamount-amount <= 0) {
+				this.products.remove(product.getNombre());
+			}else {
+				orderedProduct.subAmount(amount);
+				this.products.replace(product.getNombre(),orderedProduct);
+			}
+		}
 	}
 
-	public Long getImporte() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<OrderedProduct> getOproducts() {
+		return this.products.values();
 	}
+
+	public double getImporte() {
+		Collection<OrderedProduct> orderedProducts = this.products.values();
+		double importe = 0;
+		for(OrderedProduct orderedProduct : orderedProducts) {
+			importe+=orderedProduct.getAmount()*orderedProduct.getPrice();
+		}
+		return importe;
+	}
+
+	
 }

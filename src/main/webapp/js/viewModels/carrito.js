@@ -1,18 +1,14 @@
 define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		'jquery' ], function(ko, app, moduleUtils, accUtils, $) {
 
-	class ProductViewModel {
+	class checkCorderViewModel {
 		constructor() {
 			var self = this;
 			
-			self.nombre = ko.observable("Detergente");
-			self.precio = ko.observable("8,50 €");
-
-			self.productos = ko.observableArray([]);
 			self.carrito = ko.observableArray([]);
-
-			self.message = ko.observable(null);
-			self.error = ko.observable(null);
+			self.importe = ko.observable();
+			self.message = ko.observable();
+			self.error = ko.observable();
 			
 			// Header Config
 			self.headerConfig = ko.observable({
@@ -29,62 +25,27 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			})
 		}
 
-		add() {
+		getCarrito() {
 			var self = this;
-			var info = {
-				nombre : this.nombre(),
-				precio : this.precio()
-			};
-			let data = {
-				data : JSON.stringify(info),
-				url : "product/add",
-				type : "post",
+			var data = {
+				url : "corder/getCarrito",
+				type : "get",
 				contentType : 'application/json',
 				success : function(response) {
-					self.message("Producto guardado");
-					self.getProductos();
+					self.carrito(response.oproducts)
+					console.log(self.carrito)
+					self.importe(response.importe)
+					console.log(self.importe);
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
 				}
 			};
 			$.ajax(data);
+			
 		}
 
-		getProductos(){
-			let self = this;
-			let data = {
-				url: "product/getTodos",
-				type: "get",
-				contentType: 'application/json',
-				success: function (response) {
-					self.productos(response);					
-				},
-				error: function (response) {
-					self.error(response.responseJSON.errorMessage);
-				}
-			};
-			$.ajax(data);
-		}
-		
-		eliminarProducto(nombre){
-			let self = this;
-			let data = {
-				url : "product/borrarProducto/" + nombre,
-				type : "delete",
-				contentType : 'application/json',
-				success : function(response) {
-					self.message("Producto eliminado");
-					self.getProductos();
-				},
-				error : function(response) {
-					self.error(response.responseJSON.errorMessage);
-				}
-			};
-			$.ajax(data);
-		}
-		
-		addAlCarrito(nombre){
+		sumar(nombre){
 			let self = this;
 			let data = {
 				url : "corder/addAlCarrito/" + nombre.replace(/\//g, 'alt47'),
@@ -92,6 +53,10 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				contentType : 'application/json',
 				success : function(response) {
 					self.message("Producto añadido al carrito");
+					self.carrito(response.oproducts)
+					console.log(self.carrito)
+					self.importe(response.importe)
+					console.log(self.importe);
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
@@ -99,16 +64,34 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			};
 			$.ajax(data);
 		}
-		
-		register() {
-			app.router.go( { path : "register" } );
+
+		restar(nombre){
+			let self = this;
+			let data = {
+				url : "corder/subAlCarrito/" + nombre.replace(/\//g, 'alt47'),
+				type : "post",
+				contentType : 'application/json',
+				success : function(response) {
+					self.message("Producto reducido al carrito");
+					self.carrito(response.oproducts)
+					console.log(self.carrito)
+					self.importe(response.importe)
+					console.log(self.importe);
+				},
+				error : function(response) {
+					self.error(response.responseJSON.errorMessage);
+				}
+			};
+			$.ajax(data);
+		}
+
+		pagar(){
+			//posible redirect
 		}
 
 		connected() {
-			accUtils.announce('Login page loaded.');
-			document.title = "Login";
-			this.getProductos();
-
+			document.title = "Carrito";
+			this.getCarrito();
 		};
 
 		disconnected() {
@@ -120,5 +103,5 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		};
 	}
 
-	return ProductViewModel;
+	return checkCorderViewModel;
 });

@@ -9,9 +9,9 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			self.estado = ko.observable();
 			self.shouldShow = ko.observable(false);
 
-		this.show = function () {
-			self.shouldShow(true);
-		}
+			this.show = function () {
+				self.shouldShow(true);
+			}
 			self.message = ko.observable();
 			self.error = ko.observable();
 			
@@ -33,7 +33,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		checkCorder() {
 			var self = this;
 			var data = {
-				url : "product/checkCorder/"+this.corderid(),
+				url : "corder/checkCorder/"+this.corderid(),
 				type : "get",
 				contentType : 'application/json',
 				success : function(response) {
