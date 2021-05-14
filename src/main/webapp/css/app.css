@@ -30,3 +30,28 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+.card{
+  margin: 8px;
+
+}
+
+.card label[class="nombre"]{
+  width: 200px;
+}
+
+.card-deck {
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.btn-group-dropright{
+  margin-bottom: 150px;
+  margin-top: 50px;
+}

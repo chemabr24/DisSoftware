@@ -6,55 +6,36 @@
 	</div>
 	<!-- This is where your main page content will be loaded -->
 	<div class="oj-applayout-content">
-		<div role="main" class="oj-hybrid-applayout-content">
-			<div class="oj-hybrid-padding">
-				<h1>Producto</h1>
-			<table>
-				<tr>
-					<th>Unidades</th><th>Producto</th>
-				</tr>
-				<!--  ko foreach : carrito -->
-					<tr>
-						<td data-bind="html : amount"></td>
-						<td data-bind="html: name"></td>
-					</tr>
-				<!-- /ko -->
-			</table>
-			
-			
-			
-				<div>
-					<input type="text" data-bind="value: nombre" placeholder="Nombre del producto"> <input type="text" 
-					data-bind="value: precio" placeholder="Precio">
-					<button data-bind="click : add">Guardar producto</button>
-					<div data-bind="html : message" style="color: blue"></div>
-					<div data-bind="html : error" style="color: red"></div>
+		<p>
+			Categorias:
+		<select data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
+		</p>
+		<div class="card-box">
+			<div class="row">
+				<!--  ko foreach : productos  -->
+				<div class="card" style="width: 18rem;">
+					<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
+					<div class="card-body">
+						<p class="card-subtitle mb-2" data-bind="html: nombre"></p>
+						<div data-bind="if: congelado">
+							<span class="product-card__item-info-tag" style="background-color: rgb(80, 167, 253);"></span>
+							<label class="card-subtitle mb-2">**Congelado**</label>
+						</div>
+						<label class="card-subtitle mb-2" data-bind="html: precio"></label>
+						<label>€</label>
+					</div>
+					<button raised-button data-bind="click : function() { $parent.addAlCarrito(nombre); }"
+						mat-flat-button color="green" class="btn btn-primary">Aniadir al carrito</button>
 				</div>
 
-				<table>
-					<tr>
-						<th>Nombre</th>
-						<th>Precio</th>
-						<th>Imagen</th>
-						<th></th>
-						<th></th>
-					</tr>
-					<!--  ko foreach : productos  -->
-						<tr>
-							<td data-bind="html: nombre"></td> 
-							<td data-bind="html: precio"></td>
-							<img width="160px" height="160px" data-bind="attr:{src: foto}" /> 
-							<td>
-								<button data-bind="click : function() { $parent.eliminarProducto(nombre); }">Eliminar</button>
-							</td> 
-							<td>
-								<button data-bind="click : function() { $parent.addAlCarrito(nombre); }">Aniadir al carrito</button>
-							</td> 
-							<oj-paging-control id="paging" data="[[pagingDataProvider]]" page-size="10" slot="bottom">
-						</tr>
-					<!--  /ko -->
-				</table>
+				<!--  /ko -->
 			</div>
 		</div>
 	</div>
 </div>
+	<!--<div class="demo-paging-control-container">
+	<div class="demo-paging-control">
+		<oj-paging-control id="pagingControl" data="[[productos]]" page-size="0" page-options='{"type": "dots"}'>
+		</oj-paging-control>
+	</div>
+</div>-->
