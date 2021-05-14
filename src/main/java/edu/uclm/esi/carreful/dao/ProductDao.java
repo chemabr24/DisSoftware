@@ -2,6 +2,7 @@ package edu.uclm.esi.carreful.dao;
 
 import java.util.List;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,5 @@ public interface ProductDao extends JpaRepository <Product, String> {
 
 	@Query(value ="SELECT * FROM carreful.product p, carreful.categoria c WHERE p.categoria_id=c.id and c.nombre=:categoria", nativeQuery = true)
 	List<Product> findProduct(@Param ("categoria")String categoria);
+
 }

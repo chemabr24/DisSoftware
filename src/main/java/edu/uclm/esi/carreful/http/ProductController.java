@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.print.attribute.SetOfIntegerSyntax;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.PUT;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,15 +13,20 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+
+import edu.uclm.esi.carreful.dao.CorderDao;
+import edu.uclm.esi.carreful.model.Corder;
 import edu.uclm.esi.carreful.dao.CategoriaDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
 import edu.uclm.esi.carreful.model.Carrito;
 import edu.uclm.esi.carreful.model.Categoria;
+
 import edu.uclm.esi.carreful.model.Product;
 
 @RestController
@@ -31,6 +37,9 @@ public class ProductController extends CookiesController {
 	private ProductDao productDao;
 	@Autowired
 	private CategoriaDao categoriaDao;
+	
+	@Autowired
+	private CorderDao corderDao;
 	
 	@PostMapping("/add")
 	public void add(@RequestBody Product product) {
@@ -93,18 +102,6 @@ public class ProductController extends CookiesController {
 		}
 	}
 	
-	@PostMapping("/addAlCarrito/{nombre}")
-	public Carrito addAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito= (Carrito) request.getSession().getAttribute("carrito");
-		if (carrito==null) {
-			carrito = new Carrito();
-			request.getSession().setAttribute("carrito", carrito);;
-		}
-		Product producto =  productDao.findById(nombre).get();
-		carrito.add(producto,1);
-		return carrito;
-	}
-	
 	@DeleteMapping("/borrarProducto/{nombre}")
 	public void borrarProducto(@PathVariable String nombre) {
 		try {
@@ -117,4 +114,5 @@ public class ProductController extends CookiesController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
+	
 }
