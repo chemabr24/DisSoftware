@@ -31,33 +31,36 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 				self.pageNumber = ko.observable(0);
 				self.nbPerPage = 16;
-				self.totalPages = ko.computed(function() {
+				self.totalPages = ko.computed(function () {
 					let div = Math.floor(self.productos().length / self.nbPerPage);
 					div += self.productos().length % self.nbPerPage > 0 ? 1 : 0;
 					return div - 1;
 				});
-				
-				this.paginated = ko.computed(function() {
+
+				this.paginated = ko.computed(function () {
 					let first = self.pageNumber() * self.nbPerPage;
 					return self.productos.slice(first, first + self.nbPerPage);
 				});
-				this.hasPrevious = ko.computed(function() {
+
+				this.hasPrevious = ko.computed(function () {
 					return self.pageNumber() !== 0;
 				});
-				this.hasNext = ko.computed(function() {
+
+				this.hasNext = ko.computed(function () {
 					return self.pageNumber() !== self.totalPages();
 				});
-				this.next = function() {
-					if(self.pageNumber() < self.totalPages()) {
-						window.scroll({top: 0, left: 0, behavior: 'smooth'})
+
+				this.next = function () {
+					if (self.pageNumber() < self.totalPages()) {
+						window.scroll({ top: 0, left: 0, behavior: 'smooth' })
 						self.pageNumber(self.pageNumber() + 1);
 					}
 				}
-				
-				this.previous = function() {
-					if(self.pageNumber() != 0) {
-						window.scroll({top: 0, left: 0, behavior: 'smooth'})
-						self.pageNumber(self.pageNumber() - 1);	
+
+				this.previous = function () {
+					if (self.pageNumber() != 0) {
+						window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+						self.pageNumber(self.pageNumber() - 1);
 					}
 				}
 
@@ -74,8 +77,6 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 						'viewModel': app.getHeaderModel()
 					})
 				})
-
-
 			}
 
 			add() {
@@ -131,8 +132,6 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				};
 				$.ajax(data);
 			}
-
-
 
 			getProductCategoria() {
 				let self = this;
@@ -190,9 +189,6 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				document.title = "Login";
 				this.getProductos();
 				this.getCategorias();
-
-				//	this.paginacion();
-
 			};
 
 			disconnected() {
@@ -207,11 +203,5 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			}
 		}
 
-
 		return ProductViewModel;
 	});
-
-	
-		
-	
-	

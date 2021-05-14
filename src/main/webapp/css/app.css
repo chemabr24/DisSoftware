@@ -45,7 +45,7 @@
   flex-flow: row wrap;
   margin-right: -15px;
   margin-left: -15px;
-display: -ms-flexbox;
+  display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;

@@ -53,7 +53,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		}
 
 		connected() {
-			document.title = "Recuperación contraseña";
+			document.title = "Comprobar pedido";
 		};
 
 		disconnected() {

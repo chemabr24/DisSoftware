@@ -8,7 +8,8 @@
 	<div class="oj-applayout-content" id="top">
 		<p>
 			Categorias:
-		<select data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
+			<select
+				data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
 		</p>
 		<div class="card-box">
 			<div class="row">
@@ -18,7 +19,8 @@
 					<div class="card-body">
 						<p class="card-subtitle mb-2" data-bind="html: nombre"></p>
 						<div data-bind="if: congelado">
-							<span class="product-card__item-info-tag" style="background-color: rgb(80, 167, 253);"></span>
+							<span class="product-card__item-info-tag"
+								style="background-color: rgb(80, 167, 253);"></span>
 							<label class="card-subtitle mb-2">**Congelado**</label>
 						</div>
 						<label class="card-subtitle mb-2" data-bind="html: precio"></label>

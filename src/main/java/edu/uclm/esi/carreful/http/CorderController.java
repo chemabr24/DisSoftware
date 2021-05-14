@@ -1,7 +1,5 @@
 package edu.uclm.esi.carreful.http;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,63 +17,60 @@ import edu.uclm.esi.carreful.dao.CorderDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
 import edu.uclm.esi.carreful.model.Carrito;
 import edu.uclm.esi.carreful.model.Corder;
-import edu.uclm.esi.carreful.model.OrderedProduct;
 import edu.uclm.esi.carreful.model.Product;
 
 @RestController
 @RequestMapping("corder")
 public class CorderController extends CookiesController {
-	
+
 	@Autowired
 	private ProductDao productDao;
-	
+
 	@Autowired
 	private CorderDao corderDao;
-	
+
 	@GetMapping("/checkCorder/{orderid}")
 	public String checkCorder(@PathVariable String orderid) {
 		try {
 			Optional<Corder> corder = corderDao.findById(orderid);
-			if(corder.isPresent()) {
+			if (corder.isPresent()) {
 				return corder.get().getState();
-			}	
+			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 		return "";
 	}
-	
+
 	@PostMapping("/addAlCarrito/{nombre}")
 	public Carrito addAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito= (Carrito) request.getSession().getAttribute("carrito");
-		if (carrito==null) {
+		Carrito carrito = (Carrito) request.getSession().getAttribute("carrito");
+		if (carrito == null) {
 			carrito = new Carrito();
 			request.getSession().setAttribute("carrito", carrito);
 		}
-		Optional<Product> producto =  productDao.findByNombre(nombre.replace("alt47", "/"));
-		if(producto.isPresent())		
-			carrito.add(producto.get(),1);
+		Optional<Product> producto = productDao.findByNombre(nombre.replace("alt47", "/"));
+		if (producto.isPresent())
+			carrito.add(producto.get(), 1);
 		return carrito;
 	}
-	
+
 	@PostMapping("/subAlCarrito/{nombre}")
 	public Carrito minusAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito= (Carrito) request.getSession().getAttribute("carrito");
-		if (carrito==null) {
+		Carrito carrito = (Carrito) request.getSession().getAttribute("carrito");
+		if (carrito == null) {
 			request.getSession().setAttribute("carrito", new Carrito());
 			return carrito;
 		}
-		Optional<Product> producto =  productDao.findByNombre(nombre.replace("alt47", "/"));
-		if(producto.isPresent())		
-			carrito.sub(producto.get(),1);
+		Optional<Product> producto = productDao.findByNombre(nombre.replace("alt47", "/"));
+		if (producto.isPresent())
+			carrito.sub(producto.get(), 1);
 		request.getSession().setAttribute("carrito", carrito);
 		return carrito;
 	}
-	
+
 	@GetMapping("/getCarrito")
 	public Carrito getCarrito(HttpServletRequest request) {
-		Carrito carrito= (Carrito) request.getSession().getAttribute("carrito");
-
-		return carrito;
+		return (Carrito) request.getSession().getAttribute("carrito");
 	}
 }
