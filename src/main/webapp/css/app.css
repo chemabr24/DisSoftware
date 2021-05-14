@@ -31,41 +31,6 @@
   transform: translate(-50%, -50%);
 }
 
-.checkCorder input[type="text"] {
-  padding: 6px;
-  border-width: 1px;
-  border-color: #000000;
-  background-color: #FFFFFF;
-  color: #000000;
-  border-style: solid;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 312px;
-}
-.checkCorder span{
-  max-width: 480px;
-  word-wrap: break-word;
-  overflow: hidden;
-  display: block;
-  margin-top: 3%;
-}
-.setNewPassword {
-  width: 300px;
-  margin: 160px auto;
-  font-size: 16px;  
-}
-.setNewPassword input[type="password"] {
-  padding: 6px;
-  border-width: 1px;
-  border-color: #000000;
-  background-color: #FFFFFF;
-  color: #000000;
-  border-style: solid;
-  border-radius: 5px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-
 .card{
   margin: 8px;
 
@@ -91,3 +56,17 @@ display: -ms-flexbox;
   margin-top: 50px;
 }
 
+.pager a{
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 3rem;
+}
+
+.pager [class = "previous"]{
+  color: #00529c;
+}
+
+.pager [class = "next"]{
+  color: #00529c;
+}
