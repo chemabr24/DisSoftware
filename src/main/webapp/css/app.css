@@ -55,3 +55,18 @@ display: -ms-flexbox;
   margin-bottom: 150px;
   margin-top: 50px;
 }
+
+.pager a{
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 3rem;
+}
+
+.pager [class = "previous"]{
+  color: #00529c;
+}
+
+.pager [class = "next"]{
+  color: #00529c;
+}

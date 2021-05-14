@@ -5,14 +5,14 @@
 		</header>
 	</div>
 	<!-- This is where your main page content will be loaded -->
-	<div class="oj-applayout-content">
+	<div class="oj-applayout-content" id="top">
 		<p>
 			Categorias:
 		<select data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
 		</p>
 		<div class="card-box">
 			<div class="row">
-				<!--  ko foreach : productos  -->
+				<!--  ko foreach : paginated  -->
 				<div class="card" style="width: 18rem;">
 					<img class="card-img-top" data-bind="attr:{src: foto}" alt="Card image cap">
 					<div class="card-body">
@@ -31,11 +31,10 @@
 				<!--  /ko -->
 			</div>
 		</div>
+		<div class="pager text-center">
+			<a href="#top" class="previous" data-bind="click: previous, visible: hasPrevious">&#60;</a>
+			<span class="current" data-bind="text: pageNumber"></span>
+			<a href="#top" class="next" data-bind="click: next, visible: hasNext">&#62;</a>
+		</div>
 	</div>
 </div>
-	<!--<div class="demo-paging-control-container">
-	<div class="demo-paging-control">
-		<oj-paging-control id="pagingControl" data="[[productos]]" page-size="0" page-options='{"type": "dots"}'>
-		</oj-paging-control>
-	</div>
-</div>-->
