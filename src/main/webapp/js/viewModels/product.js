@@ -153,7 +153,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			eliminarProducto(nombre) {
 				let self = this;
 				let data = {
-					url: "product/borrarProducto/" + nombre,
+					url: "product/borrarProducto/" + nombre.replace( /\//g,"alt47"),
 					type: "delete",
 					contentType: 'application/json',
 					success: function (response) {
@@ -170,7 +170,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			addAlCarrito(nombre) {
 				let self = this;
 				let data = {
-					url: "corder/addAlCarrito/" + nombre,
+					url: "corder/addAlCarrito/" + nombre.replace(/\//g, "alt47"),
 					type: "post",
 					contentType: 'application/json',
 					success: function (response) {

@@ -33,6 +33,7 @@ define(['knockout', 'ojs/ojcorerouter', 'ojs/ojmodulerouter-adapter', 'ojs/ojkno
         { path: 'menu', detail: { label: 'Menú', iconClass: 'oj-ux-ico-fire' } },
         { path: 'checkCorder', detail: { label: 'Comprobar pedido'} },
         { path: 'carrito', detail: { label: 'Carrito'} },
+        { path: 'payment', detail: { label: 'Pago'} },
         { path: 'about', detail: { label: 'About', iconClass: 'oj-ux-ico-information-s' } }
         
       ];
