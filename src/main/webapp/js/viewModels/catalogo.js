@@ -79,15 +79,38 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				})
 			}
 
-			addAlCarrito(nombre) {
+			add() {
 				let self = this;
+				let info = {
+					nombre: this.nombre(),
+					precio: this.precio()
+				};
 				let data = {
-					url: "corder/addAlCarrito/" + nombre,
+					data: JSON.stringify(info),
+					url: "product/add",
 					type: "post",
 					contentType: 'application/json',
 					success: function (response) {
-						self.message("Producto añadido al carrito");
-						self.carrito(response.products)
+						self.message("Producto guardado");
+						self.getProductos();
+					},
+					error: function (response) {
+						self.error(response.responseJSON.errorMessage);
+					}
+				};
+				$.ajax(data);
+			}
+
+
+			eliminarProducto(nombre) {
+				let self = this;
+				let data = {
+					url: "product/borrarProducto/" + nombre,
+					type: "delete",
+					contentType: 'application/json',
+					success: function (response) {
+						self.message("Producto eliminado");
+						self.getProductos();
 					},
 					error: function (response) {
 						self.error(response.responseJSON.errorMessage);
