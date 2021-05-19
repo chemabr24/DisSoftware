@@ -1,8 +1,7 @@
-class CatalogoMethod {
+class Catalogo_method{
     constructor(){
 
     }
-
     getProductos() {
         let self = this;
         let data = {
@@ -44,6 +43,22 @@ class CatalogoMethod {
             contentType: 'application/json',
             success: function (response) {
                 self.productos(response);
+            },
+            error: function (response) {
+                self.error(response.responseJSON.errorMessage);
+            }
+        };
+        $.ajax(data);
+    }
+
+    peticion(direccion,tipo){
+        let self = this;
+        let data = {
+            url: direccion,
+            type: tipo,
+            contentType: 'application/json',
+            success: function (response) {
+                return (response);
             },
             error: function (response) {
                 self.error(response.responseJSON.errorMessage);

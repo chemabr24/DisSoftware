@@ -1,17 +1,32 @@
 define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 	'jquery'], function (ko, app, moduleUtils, accUtils, $) {
 
-		class ProductViewModel extends CatalogoMethod {
+		class CatalogoViewModel extends Catalogo_method {
 			constructor() {
 				super();
 				let self = this;
 				self.productos = ko.observableArray([]);
 				self.carrito = ko.observableArray([]);
 				self.selectedCategory = ko.observable();
+				
+				self.nombreproducto = ko.observable();
+				self.precioproducto = ko.observable();
+				self.imagenproducto = ko.observable();
+				self.stockproducto = ko.observable();
+				self.congeladoproducto = ko.observable();
 
 				self.categorias = ko.observableArray(["Todos"]);
 				self.selectionChanged = function () {
 					this.getProductCategoria();
+				}
+
+				self.setimagenproducto = function (widget, event) {
+					var file = event.target.files[0];
+					var reader = new FileReader();
+					reader.onload = function () {
+						self.imagenproducto("data:image/png;base64," + btoa(reader.result));
+					}
+					reader.readAsBinaryString(file);
 				}
 
 				self.pag = function () {
@@ -99,13 +114,21 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					}
 				};
 				$.ajax(data);
-			}
+			};
 
+			cargarProducto(nombre,precio,stock,congelado,imagen){
+				let self = this;
+				self.nombreproducto(nombre);
+				self.precioproducto(precio);
+				self.stockproducto(stock);
+				self.congeladoproducto(congelado);
+				self.imagenproducto(imagen);
+			};
 
 			eliminarProducto(nombre) {
 				let self = this;
 				let data = {
-					url: "product/borrarProducto/" + nombre,
+					url: "product/borrarProducto/" + nombre.replace( /\//g,"alt47"),
 					type: "delete",
 					contentType: 'application/json',
 					success: function (response) {
@@ -117,7 +140,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					}
 				};
 				$.ajax(data);
-			}
+			};
 
 			connected() {
 				accUtils.announce('Login page loaded.');
@@ -135,5 +158,5 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			};
 		}
 
-		return ProductViewModel;
+		return CatalogoViewModel;
 	});
