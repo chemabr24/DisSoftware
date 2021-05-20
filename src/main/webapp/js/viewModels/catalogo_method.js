@@ -43,6 +43,7 @@ class Catalogo_method{
             contentType: 'application/json',
             success: function (response) {
                 self.productos(response);
+                self.pageNumber(0);
             },
             error: function (response) {
                 self.error(response.responseJSON.errorMessage);

@@ -1,8 +1,10 @@
 package edu.uclm.esi.carreful.http;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import edu.uclm.esi.carreful.dao.CategoriaDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
+import edu.uclm.esi.carreful.model.Categoria;
 import edu.uclm.esi.carreful.model.Product;
 
 @RestController
@@ -28,9 +31,35 @@ public class ProductController extends CookiesController {
 	private CategoriaDao categoriaDao;
 
 	@PostMapping("/add")
-	public void add(@RequestBody Product product) {
+	public void add(@RequestBody Map<String, Object> info) {
 		try {
-			productDao.save(product);
+			JSONObject jso = new JSONObject(info);
+			Optional<Product> producto = productDao.findById(jso.getString("id"));
+			Optional<Categoria> categoria = categoriaDao.findByNombre(jso.getString("categoria"));
+			Categoria categorianueva;
+			if (categoria.isPresent()) {
+				categorianueva = categoria.get();
+			} else {
+				categorianueva = new Categoria();
+			}
+			Product productonuevo;
+			if (producto.isPresent()) {
+				productonuevo = producto.get();
+			} else {
+				categorianueva.addProd();
+
+				productonuevo = new Product();
+			}
+
+			productonuevo.setCategoria(categorianueva);
+			productonuevo.setCongelado(jso.getBoolean("congelado"));
+			productonuevo.setFoto(jso.getString("foto"));
+			productonuevo.setNombre(jso.getString("nombre"));
+			productonuevo.setPrecio(jso.getDouble("precio"));
+			productonuevo.setStock(jso.getInt("stock"));
+			productDao.save(productonuevo);
+			categoriaDao.save(categorianueva);
+
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
 		}
@@ -39,9 +68,7 @@ public class ProductController extends CookiesController {
 	@GetMapping("/getTodos")
 	public List<Product> get() {
 		try {
-			System.out.println("Ha estado aqui");
 			List<Product> productos = productDao.findAll();
-			System.out.println("El producto primero es: " + productos.get(0));
 			return productos;
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -62,12 +89,9 @@ public class ProductController extends CookiesController {
 	@GetMapping("/getProductos/{categoria}")
 	public List<Product> getProductos(@PathVariable String categoria) {
 		try {
-			System.out.println("Ha estado aqui");
 			if (categoria.equals("Todos")) {
 				return productDao.findAll();
 			} else {
-				System.out.println("La categoria es: " + categoria);
-				System.out.println("y el primer producto: " + productDao.findProduct(categoria).get(0));
 				return productDao.findProduct(categoria);
 			}
 		} catch (Exception e) {
@@ -88,14 +112,18 @@ public class ProductController extends CookiesController {
 		}
 	}
 
-	@DeleteMapping("/borrarProducto/{nombre}")
-	public void borrarProducto(@PathVariable String nombre) {
+	@DeleteMapping("/borrarProducto/{id}")
+	public void borrarProducto(@PathVariable String id) {
 		try {
-			Optional<Product> optProduct = productDao.findById(nombre);
-			if (optProduct.isPresent())
-				productDao.deleteById(nombre);
-			else
+			Optional<Product> optProduct = productDao.findById(id);
+			if (optProduct.isPresent()) {
+				Categoria categoria = optProduct.get().getCategoria();
+				categoria.subproduct();
+				productDao.deleteById(id);
+				categoriaDao.save(categoria);
+			}else {
 				throw new Exception("El producto no existe");
+			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}

@@ -8,12 +8,16 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				self.productos = ko.observableArray([]);
 				self.carrito = ko.observableArray([]);
 				self.selectedCategory = ko.observable();
+				self.logged = ko.observable(false);
+				self.nologged = ko.observable(true);
 				
+				self.idproducto = ko.observable();
 				self.nombreproducto = ko.observable();
 				self.precioproducto = ko.observable();
 				self.imagenproducto = ko.observable();
 				self.stockproducto = ko.observable();
-				self.congeladoproducto = ko.observable();
+				self.congeladoproducto = ko.observable(false);
+				self.categoriaproducto = ko.observable();
 
 				self.categorias = ko.observableArray(["Todos"]);
 				self.selectionChanged = function () {
@@ -94,11 +98,45 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				})
 			}
 
-			add() {
+			isLogged(){
+				let self = this;
+				let data = {
+					url: "user/isLogin",
+					type: "get",
+					contentType: 'application/json',
+					success: function (response) {
+						self.logged(response);
+						self.nologged(!response);
+					},
+					error: function (response) {
+						self.error(response.responseJSON.errorMessage);
+					}
+				};
+				$.ajax(data);
+			}
+
+			
+			vaciarmodel(){
+				let self = this;
+				self.idproducto("");
+				self.nombreproducto("");
+				self.precioproducto("");
+				self.stockproducto("");
+				self.categoriaproducto("");
+				self.congeladoproducto(false);
+				self.imagenproducto("");
+			}
+
+			addProduct() {
 				let self = this;
 				let info = {
-					nombre: this.nombre(),
-					precio: this.precio()
+					id: self.idproducto(),
+					nombre: self.nombreproducto(),
+					precio: self.precioproducto(),
+					stock: self.stockproducto(),
+					congelado: self.congeladoproducto(),
+					foto: self.imagenproducto(),
+					categoria: self.categoriaproducto()
 				};
 				let data = {
 					data: JSON.stringify(info),
@@ -106,8 +144,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					type: "post",
 					contentType: 'application/json',
 					success: function (response) {
-						self.message("Producto guardado");
-						self.getProductos();
+						alert("Producto guardado");
+						self.getProductCategoria();
 					},
 					error: function (response) {
 						self.error(response.responseJSON.errorMessage);
@@ -116,24 +154,26 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				$.ajax(data);
 			};
 
-			cargarProducto(nombre,precio,stock,congelado,imagen){
+			cargarProducto(id,nombre,precio,stock,categoria,congelado,imagen){
 				let self = this;
+				self.idproducto(id);
 				self.nombreproducto(nombre);
 				self.precioproducto(precio);
 				self.stockproducto(stock);
+				self.categoriaproducto(categoria.nombre);
 				self.congeladoproducto(congelado);
 				self.imagenproducto(imagen);
 			};
 
-			eliminarProducto(nombre) {
+			eliminarProducto(id) {
 				let self = this;
 				let data = {
-					url: "product/borrarProducto/" + nombre.replace( /\//g,"alt47"),
+					url: "product/borrarProducto/" + id,
 					type: "delete",
 					contentType: 'application/json',
 					success: function (response) {
-						self.message("Producto eliminado");
-						self.getProductos();
+						alert("Producto eliminado");
+						self.getProductCategoria();
 					},
 					error: function (response) {
 						self.error(response.responseJSON.errorMessage);
@@ -147,6 +187,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				document.title = "Productos";
 				super.getProductos();
 				super.getCategorias();
+				this.isLogged();
 			};
 
 			disconnected() {
