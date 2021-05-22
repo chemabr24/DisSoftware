@@ -106,7 +106,7 @@ public class App
 		int paginas = Integer.parseInt(texto);
 		WebElement siguiente;
 
-		Categoria categoria = categoriaDao.findByNombre(cate);
+		Categoria categoria = categoriaDao.findByNombre(cate).get();
 		if(categoria == null) {
 			categoria = new Categoria();
 			categoria.setNombre(cate);

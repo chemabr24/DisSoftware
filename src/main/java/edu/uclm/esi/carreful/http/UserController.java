@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import edu.uclm.esi.carreful.dao.TokenDao;
 import edu.uclm.esi.carreful.dao.UserDao;
+import edu.uclm.esi.carreful.model.Carrito;
 import edu.uclm.esi.carreful.model.User;
 import edu.uclm.esi.carreful.tokens.Email;
 import edu.uclm.esi.carreful.tokens.Token;
@@ -119,6 +120,17 @@ public class UserController extends CookiesController {
 
 	}
 
+	@GetMapping("/isLogin")
+	public boolean isLogin(HttpServletRequest request) {
+		try {
+			String email = (String) request.getSession().getAttribute("userEmail");
+			return email!=null;
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+		}
+
+	}
+	
 	@PutMapping("/register")
 	public void register(@RequestBody final Map<String, Object> info) {
 		try {

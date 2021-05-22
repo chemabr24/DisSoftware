@@ -45,5 +45,10 @@ public class Categoria {
 	public void addProd() {
 		this.numeroDeProductos++;
 	}
+
+	public void subproduct() {
+		this.numeroDeProductos--;
+		
+	}
 	
 }
