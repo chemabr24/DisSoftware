@@ -74,15 +74,15 @@ public class PaymentsController extends CookiesController {
 	
 	@GetMapping("/tieneCongelado")
 	public boolean tieneCongelado(HttpServletRequest request) {
-		Carrito carrito = (Carrito) request.getAttribute(Messages.getString("PaymentsController.6"));
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("PaymentsController.6"));
 		Collection<OrderedProduct> productos = carrito.getOproducts();
 		for(OrderedProduct producto : productos) {
 			Optional<Product> oProducto = productDao.findByNombre(producto.getName());
 			if(oProducto.isPresent() && oProducto.get().isCongelado()) {
-				return false;  
+				return true;  
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	@PostMapping("/compra")

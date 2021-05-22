@@ -7,7 +7,7 @@
   <!-- This is where your main page content will be loaded -->
   <div class="oj-applayout-content" style="margin: 1% 5%;">
     <div role="main" class="oj-hybrid-applayout-content">
-      <div class="oj-hybrid-padding">
+      <div class="oj-hybrid-padding pago">
         <div>
           <div class="carrito" style="margin: 1% 5%;">
             <p>
@@ -43,19 +43,22 @@
         <div>
           <div style="margin: 1% 5%;">
             <p>Tipo de envio</p>
+            <span>Para envios con productos congelados solo se puede expres</span>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                value="Recogida" data-bind="checked: selectedTipoEnvio, click: strategy()" /> Recogida
+                value="Recogida" data-bind="checked: selectedTipoEnvio, click: function(){strategy();}" /> Recogida &emsp; sin gastos extra
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Envio"
-                data-bind="checked: selectedTipoEnvio, click: strategy(), enable: congelado" /> Envio
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="Envio"
+                data-bind="checked: selectedTipoEnvio, click: function(){strategy();}, hidden: congelado" /> Envio &emsp; +3,25€
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Expres"
-                data-bind="checked: selectedTipoEnvio, click: strategy()" /> Envio expres
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="Expres"
+                data-bind="checked: selectedTipoEnvio, click: function(){strategy();}" /> Envio expres &emsp; +5,50€
             </div>
-
+            <div style="margin: 10px;">
+              <h4 data-bind="html: selectedTipoEnvio"></h4>
+            </div>
             <div class="recogida" data-bind="visible: bRecogida">
               <!-- form de recogida-->
               <form>
@@ -64,7 +67,7 @@
                   <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com"
                     data-bind="value: correo, enable: pagando">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 5px ">
                   <label>Elige donde recoger el pedido</label>
                   <select data-bind="options: aviableTiendas, value: selectedTienda, enable: pagando"></select>
                 </div>
@@ -99,7 +102,7 @@
               </form>
             </div>
             <button class="btn btn-primary"
-              data-bind="click: function() { habilitarPagar(); }, enable: pagando">Siguiente</button>
+              data-bind="click: function() { habilitarPagar(); }, enable: pagando" style="margin: 15px auto;">Siguiente</button>
           </div>
 
           <div class="pagar" data-bind="visible: bPagar" style="margin: 1% 5%;">
@@ -107,11 +110,11 @@
               <div id="card-element">
                 <!--Stripe.js injects the Card Element-->
               </div>
-              <button id="submit">
+              <button id="submit" class="btn btn-primary">
                 <div class="spinner hidden" id="spinner"></div>
                 <span id="button-text">Pagar ahora</span>
               </button>
-              <button class="btn btn-primary" data-bind="click : function() {habilitardatos();}">Volver atras</button>
+              <button class="btn btn-primary" data-bind="click : function() {habilitardatos();}" style="margin: 1% 5%;">Volver atras</button>
               <p id="card-error" role="alert"></p>
             </form>
           </div>

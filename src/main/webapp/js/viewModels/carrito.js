@@ -35,9 +35,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				success : function(response) {
 					self.message("Producto añadido al carrito");
 					self.carrito(response.oproducts)
-					console.log(self.carrito)
 					self.importe(response.importe)
-					console.log(self.importe);
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
@@ -55,9 +53,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				success : function(response) {
 					self.message("Producto reducido al carrito");
 					self.carrito(response.oproducts)
-					console.log(self.carrito)
 					self.importe(response.importe)
-					console.log(self.importe);
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
@@ -68,10 +64,6 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 		pagar() {
 			app.router.go( { path : "payment" } );
-		}
-
-		pagar(){
-			//posible redirect
 		}
 
 		connected() {
