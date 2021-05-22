@@ -1,0 +1,117 @@
+<div class="oj-hybrid-applayout-page">
+  <div class="oj-applayout-fixed-top">
+    <header role="banner" class="oj-hybrid-applayout-header">
+      <oj-module config="[[headerConfig]]"></oj-module>
+    </header>
+  </div>
+  <!-- This is where your main page content will be loaded -->
+  <div class="oj-applayout-content" style="margin: 1% 5%;">
+    <div role="main" class="oj-hybrid-applayout-content">
+      <div class="oj-hybrid-padding">
+        <div>
+          <div class="carrito" style="margin: 1% 5%;">
+            <p>
+            <h2>Carrito</h2>
+            </p>
+            <div class="table-responsive">
+              <table class="table table-striped" style="text-align: center;">
+                <thead>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio unidad</th>
+                </thead>
+                <tbody>
+                  <!--  ko foreach : carrito  -->
+                  <tr>
+                    <td data-bind="html: name"></td>
+                    <td data-bind="html: amount"></td>
+                    <td data-bind="html: price"></td>
+                  </tr>
+                  <!--  /ko -->
+                </tbody>
+              </table>
+              <div class="float-end" style="margin: 1%;">
+                <p>
+                  <label>Importe total</label>
+                  <label data-bind="html : importe"></label>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="margin: 1% 5%;">
+            <p>Tipo de envio</p>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                value="Recogida" data-bind="checked: selectedTipoEnvio, click: strategy()" /> Recogida
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Envio"
+                data-bind="checked: selectedTipoEnvio, click: strategy(), enable: congelado" /> Envio
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Expres"
+                data-bind="checked: selectedTipoEnvio, click: strategy()" /> Envio expres
+            </div>
+
+            <div class="recogida" data-bind="visible: bRecogida">
+              <!-- form de recogida-->
+              <form>
+                <div class="form-group">
+                  <label>Correo de contacto</label>
+                  <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com" data-bind="value: correo, enable: pagando">
+                </div>
+                <div class="form-group">
+                  <label>Elige donde recoger el pedido</label>
+                  <select data-bind="options: aviableTiendas, value: selectedTienda, enable: pagando"></select>
+                </div>
+              </form>
+            </div>
+
+            <div class="envio" data-bind="visible: bEnvio">
+              <!-- form de envio -->
+              <form>
+                <form>
+                  <div class="form-group">
+                      <label>Correo de contacto</label>
+                      <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com" data-bind="value: correo, enable: pagando">
+                    </div>
+                    <div class="form-group">
+                      <label>Localidad</label>
+                      <input type="" class="form-control" placeholder="Ciudad Real" data-bind="value: localidad, enable: pagando">
+                    </div>
+                    <div class="form-group">
+                      <label>Calle</label>
+                      <input type="" class="form-control" placeholder="Avenida de Europa, 45 " data-bind="value: calle, enable: pagando">
+                    </div>
+                    <div class="form-group">
+                      <label>Codigo postal</label>
+                      <input type="" class="form-control" placeholder="12345" data-bind="value: codigoPostal, enable: pagando">
+                    </div>
+              </form>
+              </form>
+            </div>
+            <button class="btn btn-primary" data-bind="click: function() { habilitarPagar(); }, enable: pagando">Siguiente</button>
+          </div>
+
+          <div class="pagar" data-bind="visible: bPagar" style="margin: 1% 5%;">
+            <form id="payment-form">
+              <div id="card-element">
+                <!--Stripe.js injects the Card Element-->
+              </div>
+              <button id="submit" class="btn btn-primary">
+                <div class="spinner hidden" id="spinner"></div>
+                <span id="button-text">Pagar ahora</span>
+              </button>
+              <button class="btn btn-primary" data-bind="click : function() {habilitardatos();}">Volver atras</button>
+              <p id="card-error" role="alert"></p>
+            </form>
+      
+          </div>
+          <div class="oj-sm-12" data-bind="html : error" style="color : red">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

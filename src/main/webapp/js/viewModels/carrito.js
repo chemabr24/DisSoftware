@@ -1,8 +1,9 @@
 define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		'jquery' ], function(ko, app, moduleUtils, accUtils, $) {
 
-	class checkCorderViewModel {
+	class checkCorderViewModel extends carritos_method{
 		constructor() {
+			super();
 			var self = this;
 			
 			self.carrito = ko.observableArray([]);
@@ -23,26 +24,6 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					'viewModel' : app.getHeaderModel()
 				})
 			})
-		}
-
-		getCarrito() {
-			var self = this;
-			var data = {
-				url : "corder/getCarrito",
-				type : "get",
-				contentType : 'application/json',
-				success : function(response) {
-					self.carrito(response.oproducts)
-					console.log(self.carrito)
-					self.importe(response.importe)
-					console.log(self.importe);
-				},
-				error : function(response) {
-					self.error(response.responseJSON.errorMessage);
-				}
-			};
-			$.ajax(data);
-			
 		}
 
 		sumar(nombre){
@@ -91,7 +72,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 		connected() {
 			document.title = "Carrito";
-			this.getCarrito();
+			super.getCarrito();
 		};
 
 		disconnected() {

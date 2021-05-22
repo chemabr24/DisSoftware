@@ -80,5 +80,10 @@ public class Product {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
+
+	public void subStock(double amount) {
+		this.stock -= amount;
+		
+	}
 }
 

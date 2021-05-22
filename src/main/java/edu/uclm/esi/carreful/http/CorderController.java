@@ -73,4 +73,5 @@ public class CorderController extends CookiesController {
 	public Carrito getCarrito(HttpServletRequest request) {
 		return (Carrito) request.getSession().getAttribute("carrito");
 	}
+	
 }

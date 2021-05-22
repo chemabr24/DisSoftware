@@ -53,7 +53,7 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				type : "get",
 				contentType : 'application/json',
 				success : function(response) {
-					app.router.go( { path : "menu"} );
+					self.message("Se ha enviado un correo para restablecer la contraseña")
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
