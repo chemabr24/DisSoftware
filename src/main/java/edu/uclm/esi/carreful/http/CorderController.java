@@ -39,17 +39,17 @@ public class CorderController extends CookiesController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	@PostMapping("/addAlCarrito/{nombre}")
 	public Carrito addAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito = (Carrito) request.getSession().getAttribute("carrito");
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.1")); //$NON-NLS-1$
 		if (carrito == null) {
 			carrito = new Carrito();
-			request.getSession().setAttribute("carrito", carrito);
+			request.getSession().setAttribute(Messages.getString("CorderController.2"), carrito); //$NON-NLS-1$
 		}
-		Optional<Product> producto = productDao.findByNombre(nombre.replace("alt47", "/"));
+		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.3"), "/")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (producto.isPresent())
 			carrito.add(producto.get(), 1);
 		return carrito;
@@ -57,21 +57,21 @@ public class CorderController extends CookiesController {
 
 	@PostMapping("/subAlCarrito/{nombre}")
 	public Carrito minusAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito = (Carrito) request.getSession().getAttribute("carrito");
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.5")); //$NON-NLS-1$
 		if (carrito == null) {
-			request.getSession().setAttribute("carrito", new Carrito());
+			request.getSession().setAttribute(Messages.getString("CorderController.6"), new Carrito()); //$NON-NLS-1$
 			return carrito;
 		}
-		Optional<Product> producto = productDao.findByNombre(nombre.replace("alt47", "/"));
+		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.7"), "/")); //$NON-NLS-1$ //$NON-NLS-2$
 		if (producto.isPresent())
 			carrito.sub(producto.get(), 1);
-		request.getSession().setAttribute("carrito", carrito);
+		request.getSession().setAttribute(Messages.getString("CorderController.9"), carrito); //$NON-NLS-1$
 		return carrito;
 	}
 
 	@GetMapping("/getCarrito")
 	public Carrito getCarrito(HttpServletRequest request) {
-		return (Carrito) request.getSession().getAttribute("carrito");
+		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); //$NON-NLS-1$
 	}
 	
 }

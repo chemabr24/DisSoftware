@@ -31,6 +31,7 @@ public class Email {
 		properties.put("mail.smtp.user", serverUser);  
 		properties.put("mail.smtp.auth", userAutentication);
 		properties.put("mail.smtp.socketFactory.port", port);
+		properties.put( "mail.smtp.ssl.checkserveridentity" , true);
 		properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.socketFactory.fallback", fallback);
 
@@ -63,7 +64,8 @@ public class Email {
 			this.sender = sender;
 			this.pwd = pwd;
 		}
-
+		
+		@Override
 		public PasswordAuthentication getPasswordAuthentication() {
 			return new PasswordAuthentication(sender, pwd);
 		}

@@ -66,15 +66,15 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				accUtils.announce('Register page loaded.');
 				document.title = "Registro";
 				// Implement further logic if needed
-			};
+			}
 
 			disconnected = function () {
 				// Implement if needed
-			};
+			}
 
 			transitionCompleted = function () {
 				// Implement if needed
-			};
+			}
 		}
 
 		return RegisterViewModel;

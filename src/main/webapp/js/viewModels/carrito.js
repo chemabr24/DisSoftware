@@ -66,6 +66,10 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			$.ajax(data);
 		}
 
+		pagar() {
+			app.router.go( { path : "payment" } );
+		}
+
 		pagar(){
 			//posible redirect
 		}
@@ -73,15 +77,15 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		connected() {
 			document.title = "Carrito";
 			super.getCarrito();
-		};
+		}
 
 		disconnected() {
 			// Implement if needed
-		};
+		}
 
 		transitionCompleted() {
 			// Implement if needed
-		};
+		}
 	}
 
 	return checkCorderViewModel;

@@ -15,6 +15,7 @@
             </p>
             <div class="table-responsive">
               <table class="table table-striped" style="text-align: center;">
+                <caption>Productos del carrito</caption>
                 <thead>
                   <th scope="col">Producto</th>
                   <th scope="col">Cantidad</th>
@@ -60,7 +61,8 @@
               <form>
                 <div class="form-group">
                   <label>Correo de contacto</label>
-                  <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com" data-bind="value: correo, enable: pagando">
+                  <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com"
+                    data-bind="value: correo, enable: pagando">
                 </div>
                 <div class="form-group">
                   <label>Elige donde recoger el pedido</label>
@@ -72,27 +74,32 @@
             <div class="envio" data-bind="visible: bEnvio">
               <!-- form de envio -->
               <form>
-                <form>
-                  <div class="form-group">
-                      <label>Correo de contacto</label>
-                      <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com" data-bind="value: correo, enable: pagando">
-                    </div>
-                    <div class="form-group">
-                      <label>Localidad</label>
-                      <input type="" class="form-control" placeholder="Ciudad Real" data-bind="value: localidad, enable: pagando">
-                    </div>
-                    <div class="form-group">
-                      <label>Calle</label>
-                      <input type="" class="form-control" placeholder="Avenida de Europa, 45 " data-bind="value: calle, enable: pagando">
-                    </div>
-                    <div class="form-group">
-                      <label>Codigo postal</label>
-                      <input type="" class="form-control" placeholder="12345" data-bind="value: codigoPostal, enable: pagando">
-                    </div>
-              </form>
+
+                <div class="form-group">
+                  <label>Correo de contacto</label>
+                  <input type="email" class="form-control" placeholder="clientes_carrefour.es@carrefour.com"
+                    data-bind="value: correo, enable: pagando">
+                </div>
+                <div class="form-group">
+                  <label>Localidad</label>
+                  <input type="" class="form-control" placeholder="Ciudad Real"
+                    data-bind="value: localidad, enable: pagando">
+                </div>
+                <div class="form-group">
+                  <label>Calle</label>
+                  <input type="" class="form-control" placeholder="Avenida de Europa, 45 "
+                    data-bind="value: calle, enable: pagando">
+                </div>
+                <div class="form-group">
+                  <label>Codigo postal</label>
+                  <input type="" class="form-control" placeholder="12345"
+                    data-bind="value: codigoPostal, enable: pagando">
+                </div>
+
               </form>
             </div>
-            <button class="btn btn-primary" data-bind="click: function() { habilitarPagar(); }, enable: pagando">Siguiente</button>
+            <button class="btn btn-primary"
+              data-bind="click: function() { habilitarPagar(); }, enable: pagando">Siguiente</button>
           </div>
 
           <div class="pagar" data-bind="visible: bPagar" style="margin: 1% 5%;">
@@ -100,18 +107,17 @@
               <div id="card-element">
                 <!--Stripe.js injects the Card Element-->
               </div>
-              <button id="submit" class="btn btn-primary">
+              <button id="submit">
                 <div class="spinner hidden" id="spinner"></div>
                 <span id="button-text">Pagar ahora</span>
               </button>
               <button class="btn btn-primary" data-bind="click : function() {habilitardatos();}">Volver atras</button>
               <p id="card-error" role="alert"></p>
             </form>
-      
           </div>
           <div class="oj-sm-12" data-bind="html : error" style="color : red">
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>

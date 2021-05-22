@@ -1,15 +1,14 @@
 package edu.uclm.esi.carreful.model;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table
@@ -18,14 +17,17 @@ public class Corder {
 	
 	@Id 
 	@Column(length = 36)
-	@GeneratedValue( strategy = GenerationType.AUTO )
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
 	protected String id;
 	protected double precioTotal;
 	protected String state;
 	protected String correo;
 
 	public Corder() {
-		this.id = UUID.randomUUID().toString();
 		this.state = "recibido";
 	}
 	
@@ -61,6 +63,6 @@ public class Corder {
 		this.correo = correo;
 	}
 	
-	public void nextState() {
+	public void nextState() {//Implementados en los hijos
 	}
 }

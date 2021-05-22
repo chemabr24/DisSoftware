@@ -23,7 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import edu.uclm.esi.carreful.dao.TokenDao;
 import edu.uclm.esi.carreful.dao.UserDao;
-import edu.uclm.esi.carreful.model.Carrito;
+import edu.uclm.esi.carreful.exceptionhandling.GeneralException;
 import edu.uclm.esi.carreful.model.User;
 import edu.uclm.esi.carreful.tokens.Email;
 import edu.uclm.esi.carreful.tokens.Token;
@@ -57,7 +57,7 @@ public class UserController extends CookiesController {
 	}
 
 	@PostMapping("/resetPwd")
-	public void resetPwd(HttpServletRequest request, @RequestBody Map<String, Object> info) throws Exception {
+	public void resetPwd(HttpServletRequest request, @RequestBody Map<String, Object> info)  {
 		JSONObject jso = new JSONObject(info);
 		String tokenId = (String) request.getSession().getAttribute("token");
 		Optional<Token> token = tokenDao.findById(tokenId);
@@ -70,7 +70,7 @@ public class UserController extends CookiesController {
 				final String pwd2 = jso.optString(Messages.getString("UserController.2"));
 				String rqpwd = requisitosPwd(pwd1, pwd2);
 				if (!rqpwd.equals("")) {
-					throw new Exception(rqpwd);
+					throw new GeneralException(rqpwd);
 				}
 				user.setPwd(jso.getString("pwd1"));
 				userDao.save(user);
@@ -108,11 +108,11 @@ public class UserController extends CookiesController {
 			JSONObject jso = new JSONObject(info);
 			String email = jso.getString("email");
 			if (email.length() == 0)
-				throw new Exception("Debes introducir un email");
+				throw new GeneralException("Debes introducir un email");
 			String pwd = jso.getString("pwd");
 			User user = userDao.findByEmailAndPwd(email, DigestUtils.sha512Hex(pwd));
 			if (user == null)
-				throw new Exception("Credenciales invalidas");
+				throw new GeneralException("Credenciales invalidas");
 			request.getSession().setAttribute("userEmail", email);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
@@ -137,15 +137,15 @@ public class UserController extends CookiesController {
 			final JSONObject jso = new JSONObject(info);
 			final String userName = jso.optString("userName");
 			if (userName.length() == 0)
-				throw new Exception("Debes introducir un nombre de usuario");
+				throw new GeneralException("Debes introducir un nombre de usuario");
 			final String email = jso.optString("email");
 			if (email.length() == 0)
-				throw new Exception("Debes introducir un correo valido");
+				throw new GeneralException("Debes introducir un correo valido");
 			final String pwd1 = jso.optString("pwd1");
 			final String pwd2 = jso.optString("pwd2");
 			String rqpwd = requisitosPwd(pwd1, pwd2);
 			if (!rqpwd.equals("")) {
-				throw new Exception(rqpwd);
+				throw new GeneralException(rqpwd);
 			}
 			final User user = new User();
 			user.setEmail(email);

@@ -101,15 +101,15 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				document.title = "Productos";
 				super.getProductos();
 				super.getCategorias();
-			};
+			}
 
 			disconnected() {
 				// Implement if needed
-			};
+			}
 
 			transitionCompleted() {
 				// Implement if needed
-			};
+			}
 		}
 
 		return ProductViewModel;

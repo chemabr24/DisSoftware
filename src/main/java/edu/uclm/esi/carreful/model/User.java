@@ -20,9 +20,9 @@ public class User {
 	
 	
 	public User() {
-		
+		//constructor vacio
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
