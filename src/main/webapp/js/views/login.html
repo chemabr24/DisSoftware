@@ -1,43 +1,29 @@
 <div class="oj-hybrid-applayout-page">
-  <div class="oj-applayout-fixed-top">
-    <header role="banner" class="oj-hybrid-applayout-header">
-      <oj-module config="[[headerConfig]]"></oj-module>
-    </header>
-  </div>
-  <!-- This is where your main page content will be loaded -->
-  <div class="oj-applayout-content">
-    <div role="main" class="oj-hybrid-applayout-content">
-      <div class="oj-hybrid-padding">
-        <h1>Login</h1>
-        <div>
-            <div class="oj-flex">
-            	<div class="oj-sm-12">
-            		<input type="email" placeholder="Email" data-bind="value : email">
-            	</div>
-            	<div class="oj-sm-12">
-            		<input type="password" placeholder="Contraseña" data-bind="value : pwd">
-            	</div>
-            	<div class="oj-sm-12">
-            		<button data-bind="click : login">Entrar</button>
-            	</div>
-            	<div class="oj-sm-12" data-bind="html : message" style="color : blue">
-            	</div>
-            	<div class="oj-sm-12" data-bind="html : error" style="color : red">
-            	</div>
-            </div>
-            
-            <div class="oj-flex">
-            	<div class="oj-sm-12">
-            		<a data-bind="click : recoverPwd">Recuperar contraseña</a>
-            	</div>
-            </div>
-            <div class="oj-flex">
-            	<div class="oj-sm-12">
-            		<a data-bind="click : register">Crear cuenta</a>
-            	</div>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="oj-applayout-fixed-top">
+		<header role="banner" class="oj-hybrid-applayout-header">
+			<oj-module config="[[headerConfig]]"></oj-module>
+		</header>
+	</div>
+	<!-- This is where your main page content will be loaded -->
+	<div class="login">
+		<h2 class="login-header">Login</h2>
+		<form class="login-container">
+			<div class="form-group">
+				<input class="form-control" type="email" placeholder="Email" data-bind="value : email">
+				<input class="form-control" type="password" placeholder="Contraseña" data-bind="value : pwd">
+				<div class="form-row text-center">
+					<button class="btn btn-lg btn-primary btn-block" data-bind="click : login">Entrar</button>
+				</div>
+				<div class="oj-sm-12" data-bind="html : message" style="color : blue"></div>
+				<div class="oj-sm-12" data-bind="html : error" style="color : red"></div>
+
+				<div class="form-group">
+					<p data-bind="click : recoverPwd ">Recuperar contraseña</p>
+				</div>
+				<div class="form-group">
+					<p data-bind="click : register">Crear cuenta</p>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>

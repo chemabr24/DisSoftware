@@ -70,3 +70,71 @@
 .pager [class = "next"]{
   color: #00529c;
 }
+
+.mb-3 input[type="text"]{
+  margin-left: 15px;
+}
+
+
+.login {
+  width: 300px;
+  margin: 55px auto;
+  font-size: 16px;  
+}
+
+.login-header,
+.login p {
+  margin-top: 10;
+  margin-bottom: 0;
+}
+
+.login-header {
+  background: #23bfca;
+  padding: 20px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+ 
+}
+
+.login-container {
+  background: #f7f4f4;
+  padding: 10px;
+  
+}
+
+.login p {
+  padding: 6px;
+}
+
+.login input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10%;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+}
+
+.login input[type="email"],
+.login input[type="password"] {
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+/* Text fields' focus effect */
+
+.login input[type="email"]:focus,
+.login input[type="password"]:focus {
+  border-color: #888;
+}
+
