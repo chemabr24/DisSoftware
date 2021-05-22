@@ -30,6 +30,10 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.pago{
+  width: 900px;
+  margin: auto;
+}
 
 .card{
   margin: 8px;

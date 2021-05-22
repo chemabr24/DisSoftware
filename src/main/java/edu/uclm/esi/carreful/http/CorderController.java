@@ -39,7 +39,7 @@ public class CorderController extends CookiesController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		return ""; //$NON-NLS-1$
+		return ""; 
 	}
 
 	@PostMapping("/addAlCarrito/{nombre}")
@@ -72,6 +72,20 @@ public class CorderController extends CookiesController {
 	@GetMapping("/getCarrito")
 	public Carrito getCarrito(HttpServletRequest request) {
 		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); //$NON-NLS-1$
+	}
+	
+	@GetMapping("/changeEstado/{corderid}")
+	public void changeEstado(@PathVariable String corderid) {
+		try {
+			Optional<Corder> corder = corderDao.findById(corderid);
+			if (corder.isPresent()) {
+				corder.get().nextState();
+				corderDao.save(corder.get());
+			}
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	
 	}
 	
 }

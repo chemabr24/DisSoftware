@@ -1,20 +1,28 @@
-<div class="container-fluid">
-	<header role="banner" class="oj-hybrid-applayout-header">
-		<oj-module config="[[headerConfig]]"></oj-module>
-	</header>
-</div>
-<!-- This is where your main page content will be loaded -->
-<div class="center checkCorder">
-	<div class="justify-content-md-center ">
-		<input type="text" class="input" placeholder="Introduzca id del pedido" data-bind="value : corderid">
-		<button id="btnCheckCorder" class="btn btn-primary" data-bind="click : checkCorder">Comprobar
-			pedido</button>
-		<div class="oj-sm-12" data-bind="html : message" style="color : blue">
-		</div>
-		<div class="oj-sm-12" data-bind="html : error" style="color : red">
-		</div>
+<div class="oj-hybrid-applayout-page">
+	<div class="oj-applayout-fixed-top">
+		<header role="banner" class="oj-hybrid-applayout-header">
+			<oj-module config="[[headerConfig]]"></oj-module>
+		</header>
 	</div>
-	<div class="container-fluid checkCorder" data-bind="visible: shouldShow">
-		<span data-bind="text: estado"></span>
+	<!-- This is where your main page content will be loaded -->
+	<div class="oj-applayout-content">
+		<div role="main" class="oj-hybrid-applayout-content">
+			<div class="center checkCorder">
+				<div class="justify-content-md-center ">
+					<input type="text" class="input" placeholder="Introduzca id del pedido" data-bind="value : corderid"
+						style="width: 305px;">
+					<button id="btnCheckCorder" class="btn btn-primary" data-bind="click : checkCorder">Comprobar
+						pedido</button>
+					<div class="oj-sm-12" data-bind="html : message" style="color : blue">
+					</div>
+					<div class="oj-sm-12" data-bind="html : error" style="color : red">
+					</div>
+				</div>
+				<div class="container-fluid checkCorder" data-bind="visible: shouldShow">
+					<span data-bind="text: estado"></span>
+				</div>
+				<button class="btn btn-info" data-bind="hidden: admin, click: function(){cambiarEstado();}">Avanzar estado</button>
+			</div>
+		</div>
 	</div>
 </div>
