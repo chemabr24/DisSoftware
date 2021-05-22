@@ -228,15 +228,15 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				this.tieneCongelado();
 				this.solicitarPreautorizacion();
 				
-			};
+			}
 
 			disconnected() {
 				// Implement if needed
-			};
+			}
 
 			transitionCompleted() {
 				// Implement if needed
-			};
+			}
 		}
 
 		return PaymentViewModel;

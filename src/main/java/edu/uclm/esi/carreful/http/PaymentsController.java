@@ -131,9 +131,9 @@ public class PaymentsController extends CookiesController {
 		default:
 			break;
 		}
-		request.getSession().setAttribute("carrito", new Carrito());
-		
+		request.getSession().setAttribute("carrito", new Carrito());	
 	}
+	
 	private void reducirStock(Carrito carrito) {
 		try {
 			Collection<OrderedProduct> productos = carrito.getOproducts();
@@ -156,7 +156,7 @@ public class PaymentsController extends CookiesController {
 		Email smtp = new Email();
 		String texto = "Para ver el estado del pedido use este identificador de pedido  " + id  
 				+ ".<br> Tambien puede verlo pulsando el siguiente enlace "  
-				+ "<a href='http://localhost:8080/corder/checkCorder/" + id + "'>aquí</a>";  
+				+ "<a href='http://localhost:8080/?ojr=checkCorder/checkCorder/" + id + "'>aquí</a>";  
 		smtp.send(email, "Carreful: recuperacion de contraseña", texto);  
 	}
 

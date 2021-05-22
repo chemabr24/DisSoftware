@@ -23,15 +23,15 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		connected() {
 			accUtils.announce('Menu page loaded.');
 			document.title = "Menu";
-		};
+		}
 
 		disconnected() {
 			// Implement if needed
-		};
+		}
 
 		transitionCompleted() {
 			// Implement if needed
-		};
+		}
 	}
 
 	return MenuViewModel;

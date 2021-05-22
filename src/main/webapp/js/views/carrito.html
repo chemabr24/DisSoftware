@@ -8,6 +8,7 @@
 	<div class="carrito" style="margin: 1% 5%;">
 		<div class="table-responsive">
 			<table class="table table-striped" style="text-align: center;">
+			<caption>Productos del carrito</caption>
 				<thead>
 					<th scope="col">Producto</th>
 					<th scope="col">Cantidad</th>
@@ -38,7 +39,7 @@
 					<label>Importe total</label>
 					<label data-bind="html : importe"></label>
 				</p>
-				<button class="btn btn-primary" data-bind="click : pagar" style=" margin: 1%;">Pagar</button>
+				<button class="btn btn-primary" data-bind="click : function() {pagar();}" style=" margin: 1%;">Pagar</button>
 			</div>
 		</div>
 	</div>

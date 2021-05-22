@@ -54,15 +54,15 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 		connected() {
 			document.title = "Comprobar pedido";
-		};
+		}
 
 		disconnected() {
 			// Implement if needed
-		};
+		}
 
 		transitionCompleted() {
 			// Implement if needed
-		};
+		}
 	}
 
 	return checkCorderViewModel;

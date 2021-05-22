@@ -8,14 +8,12 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -23,8 +21,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +31,9 @@ import edu.uclm.esi.carreful.model.Product;
 
 @Component
 public class App
-{
-	private static final Log LOG = LogFactory.getLog(App.class);
-
+{	
+	private static final String SCROLL = "window.scrollTo(0, 2000)";
+	
 	@Autowired
 	private ProductDao productDao;
 	@Autowired
@@ -47,7 +43,7 @@ public class App
 
 	//@EventListener(ContextRefreshedEvent.class)
 	public void chargechar() {
-		List<CompletableFuture<String>> futuresList = new ArrayList<CompletableFuture<String>>();
+		List<CompletableFuture<String>> futuresList = new ArrayList<>();
 		CompletableFuture<String> cat1 = CompletableFuture.supplyAsync(()->(charge("https://www.carrefour.es/supermercado/el-mercado-carniceria/F-10flZ12bl/c", "Carniceria")));
 		CompletableFuture<String> cat2 = CompletableFuture.supplyAsync(()->(charge("https://www.carrefour.es/supermercado/el-mercado-charcuteria/F-10flZ10fn/c", "Charcuteria")));
 		CompletableFuture<String> cat3 = CompletableFuture.supplyAsync(()->(charge("https://www.carrefour.es/supermercado/el-mercado-frutas/F-10flZ10x4/c", "Fruta")));
@@ -67,18 +63,12 @@ public class App
 
 		CompletableFuture<Void> allFutures = CompletableFuture
 				.allOf(futuresList.toArray(new CompletableFuture[futuresList.size()]));
-		CompletableFuture<List<String>> allCompletableFuture = allFutures.thenApply(future -> {
-			return futuresList.stream().map(completableFuture -> completableFuture.join())
-					.collect(Collectors.toList());	
-		});
-		CompletableFuture<List<String>> completableFuture = allCompletableFuture.toCompletableFuture();
+		CompletableFuture<Void> completableFuture = allFutures.toCompletableFuture();
 		try {
-			List<String> finalList = (List<String>) completableFuture.get();
-			LOG.info(finalList);
-		} catch (InterruptedException e) {
+			completableFuture.get();
+		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
+			 Thread.currentThread().interrupt();
 		}
 
 	}
@@ -105,16 +95,18 @@ public class App
 
 		int paginas = Integer.parseInt(texto);
 		WebElement siguiente;
-
-		Categoria categoria = categoriaDao.findByNombre(cate).get();
-		if(categoria == null) {
+		Optional<Categoria> opCategoria = categoriaDao.findByNombre(cate);
+		Categoria categoria;
+		if(opCategoria.isPresent()) {
+			categoria = opCategoria.get();
+		}else {
 			categoria = new Categoria();
 			categoria.setNombre(cate);
 			categoriaDao.save(categoria);
 		}
 		procesarPagina(driver, categoria);
 		siguiente = driver.findElement(By.className("pagination__row"));
-		siguiente.findElement(By.tagName("a")).click();;
+		siguiente.findElement(By.tagName("a")).click();
 
 		for (int i=1; i<paginas; i++) {
 			procesarPagina(driver, categoria);
@@ -132,20 +124,23 @@ public class App
 
 	private void procesarPagina(WebDriver driver, Categoria categoria) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollTo(0, 2000)");
+		js.executeScript(SCROLL);
 		try {
 			Thread.sleep(800);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
-		js.executeScript("window.scrollTo(0, 2000)");
+		js.executeScript(SCROLL);
 		try {
 			Thread.sleep(800);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
-		js.executeScript("window.scrollTo(0, 2000)");
+		js.executeScript(SCROLL);
 		try {
 			Thread.sleep(800);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 		WebElement divCardList = driver.findElement(By.className("product-card-list"));
 		List<WebElement> divProductos = divCardList.findElements(By.className("product-card__parent"));
@@ -166,21 +161,12 @@ public class App
 					precio = spanPrecio.getText().replace("€", "").replace(",", ".");
 					
 					Boolean congelado = false;
-					try {
-						WebElement ol = divProducto.findElement(By.className("product-card__info-tag"));
-						String con = ol.getText();
-						if(con.equals("CONGELADO")) {
-							congelado = true;
-						}
-					} catch (Exception e) {
-	
-					}
+					congelado = isCongelado(divProducto);
 					WebElement img = divProducto.findElement(By.tagName("img"));
 					String urlImage = img.getAttribute("src");   
 	
 					String base64F = convertUrlBase64(urlImage);
 					Product prod = new Product();
-					prod = new Product();
 					prod.setNombre(nombre);
 					prod.setPrecio(Double.parseDouble(precio));
 					prod.setCategoria(categoria);
@@ -191,7 +177,7 @@ public class App
 						productDao.save(prod);
 						categoria.addProd();
 					}
-			} catch (Exception e) {
+			} catch (Exception e) {//Se salta este paso 
 			}
 		}
 
@@ -210,9 +196,22 @@ public class App
 			}
 			baos.flush();
 			return Base64.encodeBase64String(baos.toByteArray());
-		} catch (Exception e) {
+		} catch (Exception e) {//Se salta este paso 
 		}
 		return null;
+	}
+	
+	private boolean isCongelado(WebElement divProducto) {
+		try {
+		WebElement ol = divProducto.findElement(By.className("product-card__info-tag"));
+		String con = ol.getText();
+		if(con.equals("CONGELADO")) {
+			return true;
+		}
+		}catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 
 }

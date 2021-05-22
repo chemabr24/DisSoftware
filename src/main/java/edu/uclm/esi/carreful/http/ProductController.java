@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import edu.uclm.esi.carreful.dao.CategoriaDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
+import edu.uclm.esi.carreful.exceptionhandling.GeneralException;
 import edu.uclm.esi.carreful.model.Categoria;
 import edu.uclm.esi.carreful.model.Product;
 
@@ -68,8 +69,7 @@ public class ProductController extends CookiesController {
 	@GetMapping("/getTodos")
 	public List<Product> get() {
 		try {
-			List<Product> productos = productDao.findAll();
-			return productos;
+			return productDao.findAll();
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -106,7 +106,7 @@ public class ProductController extends CookiesController {
 			Optional<Product> optProduct = productDao.findById(nombre);
 			if (optProduct.isPresent())
 				return optProduct.get().getPrecio();
-			throw new Exception("El producto no existe");
+			throw new GeneralException("El producto no existe");
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -122,7 +122,7 @@ public class ProductController extends CookiesController {
 				productDao.deleteById(id);
 				categoriaDao.save(categoria);
 			}else {
-				throw new Exception("El producto no existe");
+				throw new GeneralException("El producto no existe");
 			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

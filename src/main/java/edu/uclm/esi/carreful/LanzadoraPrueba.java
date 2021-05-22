@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class LanzadoraPrueba extends SpringBootServletInitializer {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		SpringApplication.run(LanzadoraPrueba.class, args);
 	}
 	
