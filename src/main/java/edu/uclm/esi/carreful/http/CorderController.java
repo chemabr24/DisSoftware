@@ -74,9 +74,4 @@ public class CorderController extends CookiesController {
 		return (Carrito) request.getSession().getAttribute("carrito");
 	}
 	
-	@GetMapping("/removeCarrito")
-	public void borrarCarrito(HttpServletRequest request) {
-		request.getSession().setAttribute("carrito", new Carrito());
-
-	}
 }

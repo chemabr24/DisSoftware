@@ -1,5 +1,3 @@
-
-
 			class carritos_method{
 				constructor(){}
 
