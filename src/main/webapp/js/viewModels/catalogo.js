@@ -10,6 +10,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				self.selectedCategory = ko.observable();
 				self.logged = ko.observable(false);
 				self.nologged = ko.observable(true);
+				self.numero_de_productos = ko.observable();
 				
 				self.idproducto = ko.observable();
 				self.nombreproducto = ko.observable();
@@ -22,6 +23,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				self.categorias = ko.observableArray(["Todos"]);
 				self.selectionChanged = function () {
 					this.getProductCategoria();
+					this.getNumeroProductos(self.selectedCategory());
 				}
 
 				self.setimagenproducto = function (widget, event) {
@@ -129,6 +131,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 			addProduct() {
 				let self = this;
+				self.message("");
+				self.error("");
 				let info = {
 					id: self.idproducto(),
 					nombre: self.nombreproducto(),
@@ -144,8 +148,9 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					type: "post",
 					contentType: 'application/json',
 					success: function (response) {
-						alert("Producto guardado");
 						self.getProductCategoria();
+						self.message("Producto guardado")
+						self.getNumeroProductos(self.selectedCategory());
 					},
 					error: function (response) {
 						self.error(response.responseJSON.errorMessage);
@@ -167,13 +172,16 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 			eliminarProducto(id) {
 				let self = this;
+				self.message("");
+				self.error("");
 				let data = {
 					url: "product/borrarProducto/" + id,
 					type: "delete",
 					contentType: 'application/json',
 					success: function (response) {
-						alert("Producto eliminado");
 						self.getProductCategoria();
+						self.message("Producto eliminado")
+						self.getNumeroProductos(self.selectedCategory());
 					},
 					error: function (response) {
 						self.error(response.responseJSON.errorMessage);
@@ -188,6 +196,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				super.getProductos();
 				super.getCategorias();
 				this.isLogged();
+				super.getNumeroProductos("Todos");
 			};
 
 			disconnected() {

@@ -28,6 +28,8 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 		sumar(nombre){
 			let self = this;
+			self.message("");
+			self.error("");
 			let data = {
 				url : "corder/addAlCarrito/" + nombre.replace(/\//g, 'alt47'),
 				type : "post",

@@ -67,4 +67,25 @@ class Catalogo_method{
         };
         $.ajax(data);
     }
+
+    getNumeroProductos(categoria){
+        let self = this;
+        
+        self.numero_de_productos("");
+        self.error("");
+        let data = {
+            url: "product/numeroProductos/" + categoria ,
+            type: "get",
+            contentType: 'application/json',
+            success: function (response) {
+                self.numero_de_productos(response);
+            },
+            error: function (response) {
+                self.error(response.responseJSON.errorMessage);
+            }
+        };
+        $.ajax(data);
+    }
+
+
 }

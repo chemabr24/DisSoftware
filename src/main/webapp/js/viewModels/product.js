@@ -7,11 +7,13 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				let self = this;
 				self.productos = ko.observableArray([]);
 				self.carrito = ko.observableArray([]);
+				self.numero_de_productos = ko.observable();
 				self.selectedCategory = ko.observable();
 
 				self.categorias = ko.observableArray(["Todos"]);
 				self.selectionChanged = function () {
 					this.getProductCategoria();
+					this.getNumeroProductos(self.selectedCategory());
 				}
 
 				self.pag = function () {
@@ -81,6 +83,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
       
 			addAlCarrito(nombre) {
 				let self = this;
+				self.message("");
+				self.error("");
 				let data = {
 					url: "corder/addAlCarrito/" + nombre.replace(/\//g, "alt47"),
 					type: "post",
@@ -101,6 +105,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				document.title = "Productos";
 				super.getProductos();
 				super.getCategorias();
+				super.getNumeroProductos("Todos");
+				
 			};
 
 			disconnected() {

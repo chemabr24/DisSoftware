@@ -11,7 +11,11 @@
 				Categorias:
 				<select
 					data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
+					<label>Numero de productos:</label>
+					<label data-bind="html : numero_de_productos"></label>
 			</p>
+			<div data-bind="html : message" style="color : blue"></div>
+			<div data-bind="html : error" style="color : red"></div>
 			<p>
 				<button type="button" class="btn btn-primary" data-bind="click: function() { vaciarmodel(); }"
 					data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir</button>
