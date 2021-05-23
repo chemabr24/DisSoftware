@@ -107,9 +107,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				super.getCategorias();
 				super.getNumeroProductos("Todos");
 				
-			};
-
 			}
+
 
 
 			disconnected() {
