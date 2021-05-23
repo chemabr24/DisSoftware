@@ -5,8 +5,8 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		constructor() {
 			var self = this;
 			
-			self.email = ko.observable("pepe@gmail.com");
-			self.pwd = ko.observable("pepep");
+			self.email = ko.observable();
+			self.pwd = ko.observable();
 			self.message = ko.observable();
 			self.error = ko.observable();
 			
@@ -36,8 +36,8 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				url : "user/login",
 				type : "post",
 				contentType : 'application/json',
-				success : function(response) {
-					app.router.go( { path : "menu"} );
+				success : function() {
+					app.router.go( { path : "catalogo"} );
 				},
 				error : function(response) {
 					self.error(response.responseJSON.errorMessage);
@@ -69,15 +69,15 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		connected() {
 			accUtils.announce('Login page loaded.');
 			document.title = "Login";
-		};
+		}
 
 		disconnected() {
 			// Implement if needed
-		};
+		}
 
 		transitionCompleted() {
 			// Implement if needed
-		};
+		}
 	}
 
 	return LoginViewModel;

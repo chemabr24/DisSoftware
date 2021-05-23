@@ -13,8 +13,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 
 				self.aviableTiendas = ko.observableArray(['Ciudad Real', 'Toledo', 'Albacete', 'Cuenca', 'Guadalajara']);
 				self.selectedTienda = ko.observable();
-				self.selectedTipoEnvio = ko.observable("Recogida");
-				self.congelado = ko.observable(false);
+				self.selectedTipoEnvio = ko.observable();
+				self.congelado = ko.observable(true);
 
 				self.bEnvio = ko.observable(false);
 				self.bRecogida = ko.observable(false);
@@ -209,7 +209,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 			tieneCongelado(){
 				let self = this;
 				let data = {
-					url: "corder/tieneCongelado",
+					url: "payments/tieneCongelado",
 					type: "get",
 					contentType: 'application/json',
 					success: function(response){
@@ -228,15 +228,15 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				this.tieneCongelado();
 				this.solicitarPreautorizacion();
 				
-			};
+			}
 
 			disconnected() {
 				// Implement if needed
-			};
+			}
 
 			transitionCompleted() {
 				// Implement if needed
-			};
+			}
 		}
 
 		return PaymentViewModel;

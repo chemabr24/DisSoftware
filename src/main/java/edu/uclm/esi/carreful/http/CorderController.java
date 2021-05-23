@@ -41,7 +41,9 @@ public class CorderController extends CookiesController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		return ""; //$NON-NLS-1$
+
+		return "";
+
 	}
 
 	@PostMapping("/addAlCarrito/{nombre}")
@@ -67,26 +69,40 @@ public class CorderController extends CookiesController {
 		
 		
 			carrito.add(oProducto.get(), 1);
+
 		return carrito;
 	}
 
 	@PostMapping("/subAlCarrito/{nombre}")
 	public Carrito minusAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.5")); //$NON-NLS-1$
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.5"));
 		if (carrito == null) {
-			request.getSession().setAttribute(Messages.getString("CorderController.6"), new Carrito()); //$NON-NLS-1$
+			request.getSession().setAttribute(Messages.getString("CorderController.6"), new Carrito()); 
 			return carrito;
 		}
-		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.7"), "/")); //$NON-NLS-1$ //$NON-NLS-2$
+		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.7"), "/")); 
 		if (producto.isPresent())
 			carrito.sub(producto.get(), 1);
-		request.getSession().setAttribute(Messages.getString("CorderController.9"), carrito); //$NON-NLS-1$
+		request.getSession().setAttribute(Messages.getString("CorderController.9"), carrito);
 		return carrito;
 	}
 
 	@GetMapping("/getCarrito")
 	public Carrito getCarrito(HttpServletRequest request) {
-		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); //$NON-NLS-1$
+		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); 
+	}
+	
+	@GetMapping("/changeEstado/{corderid}")
+	public void changeEstado(@PathVariable String corderid) {
+		try {
+			Optional<Corder> corder = corderDao.findById(corderid);
+			if (corder.isPresent()) {
+				corder.get().nextState();
+				corderDao.save(corder.get());
+			}
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
 	}
 	
 }

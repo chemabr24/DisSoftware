@@ -157,7 +157,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					}
 				};
 				$.ajax(data);
-			};
+			}
 
 			cargarProducto(id,nombre,precio,stock,categoria,congelado,imagen){
 				let self = this;
@@ -168,7 +168,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				self.categoriaproducto(categoria.nombre);
 				self.congeladoproducto(congelado);
 				self.imagenproducto(imagen);
-			};
+			}
 
 			eliminarProducto(id) {
 				let self = this;
@@ -188,7 +188,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					}
 				};
 				$.ajax(data);
-			};
+			}
 
 			connected() {
 				accUtils.announce('Login page loaded.');
@@ -199,13 +199,16 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				super.getNumeroProductos("Todos");
 			};
 
+			}
+
+
 			disconnected() {
 				// Implement if needed
-			};
+			}
 
 			transitionCompleted() {
 				// Implement if needed
-			};
+			}
 		}
 
 		return CatalogoViewModel;

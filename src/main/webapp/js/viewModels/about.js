@@ -35,14 +35,14 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
         accUtils.announce('About page loaded.');
         document.title = "About";
         // Implement further logic if needed
-      };
+      }
 
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
       self.disconnected = function() {
         // Implement if needed
-      };
+      }
 
       /**
        * Optional ViewModel method invoked after transition to the new View is complete.
@@ -50,7 +50,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils'],
        */
       self.transitionCompleted = function() {
         // Implement if needed
-      };
+      }
     }
 
     /*
