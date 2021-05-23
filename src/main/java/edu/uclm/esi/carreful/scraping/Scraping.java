@@ -123,66 +123,62 @@ public class Scraping
 	}
 
 	private void procesarPagina(WebDriver driver, Categoria categoria) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(SCROLL);
-		try {
-			Thread.sleep(800);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-		js.executeScript(SCROLL);
-		try {
-			Thread.sleep(800);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-		js.executeScript(SCROLL);
-		try {
-			Thread.sleep(800);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
+		waitMove(driver);
 		WebElement divCardList = driver.findElement(By.className("product-card-list"));
 		List<WebElement> divProductos = divCardList.findElements(By.className("product-card__parent"));
 		for (WebElement divProducto : divProductos) {
 			try {
 				WebElement h2 = divProducto.findElement(By.tagName("h2"));
 				String nombre = h2.getText();
-					List<WebElement> spanesPrecio = divProducto.findElements(By.className("product-card__price"));
-					String precio;
-					WebElement spanPrecio;
-	
-					if(spanesPrecio.size()>0) {
-						spanPrecio = divProducto.findElement(By.className("product-card__price"));
-					}else {
-						spanPrecio = divProducto.findElement(By.className("product-card__price--current"));
-					}
-	
-					precio = spanPrecio.getText().replace("€", "").replace(",", ".");
-					
-					Boolean congelado = false;
-					congelado = isCongelado(divProducto);
-					WebElement img = divProducto.findElement(By.tagName("img"));
-					String urlImage = img.getAttribute("src");   
-	
-					String base64F = convertUrlBase64(urlImage);
-					Product prod = new Product();
-					prod.setNombre(nombre);
-					prod.setPrecio(Double.parseDouble(precio));
-					prod.setCategoria(categoria);
-					prod.setStock(rn.nextInt(20));
-					prod.setCongelado(congelado);
-					prod.setFoto("data:image/jpg;base64, "+base64F);
-					if(base64F!=null) {
-						productDao.save(prod);
-						categoria.addProd();
-					}
+				List<WebElement> spanesPrecio = divProducto.findElements(By.className("product-card__price"));
+				String precio;
+				WebElement spanPrecio;
+
+				if(spanesPrecio.size()>0) {
+					spanPrecio = divProducto.findElement(By.className("product-card__price"));
+				}else {
+					spanPrecio = divProducto.findElement(By.className("product-card__price--current"));
+				}
+
+				precio = spanPrecio.getText().replace("€", "").replace(",", ".");
+
+
+				Boolean congelado = isCongelado(divProducto);
+				WebElement img = divProducto.findElement(By.tagName("img"));
+				String urlImage = img.getAttribute("src");  
+				String base64F = convertUrlBase64(urlImage);
+				
+				Product prod = new Product();
+				prod.setNombre(nombre);
+				prod.setPrecio(Double.parseDouble(precio));
+				prod.setCategoria(categoria);
+				prod.setStock(rn.nextInt(20));
+				prod.setCongelado(congelado);
+				prod.setFoto("data:image/jpg;base64, "+base64F);
+				if(base64F!=null) {
+					productDao.save(prod);
+					categoria.addProd();
+				}
 			} catch (Exception e) {//Se salta este paso 
 			}
 		}
 
 	}
 
+	private void waitMove(WebDriver driver) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		try {
+			js.executeScript(SCROLL);
+			Thread.sleep(800);
+			js.executeScript(SCROLL);
+			Thread.sleep(800);
+			js.executeScript(SCROLL);
+			Thread.sleep(800);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+		
+	}
 	private String convertUrlBase64(String imageUrl)  {
 		try {
 			URL imageUrl1 = new URL(imageUrl);
