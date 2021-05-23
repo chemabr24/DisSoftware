@@ -10,7 +10,11 @@
 			Categorias:
 			<select
 				data-bind="options: categorias, value: selectedCategory, event: { change: selectionChanged } "></select>
-		</p>
+				<label>Numero de productos:</label>
+				<label data-bind="html : numero_de_productos"></label>
+			</p>
+		<div data-bind="html : message" style="color : blue"></div>
+		<div data-bind="html : error" style="color : red"></div>
 		<div class="card-box" style="margin: 1% 5%;">
 			<div class="row">
 				<!--  ko foreach : paginated  -->

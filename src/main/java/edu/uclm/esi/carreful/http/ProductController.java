@@ -128,5 +128,21 @@ public class ProductController extends CookiesController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
+	@GetMapping("/numeroProductos/{name}")
+	public int getNumero_productos(@PathVariable String name) {
+		int nproductos=0;
+		Optional<Categoria> categoria;
+		if(name.equals("Todos")) {
+			List<String> categorias = categoriaDao.findAllNames();
+			for(int i=0;i<categorias.size();i++) {
+				 categoria = categoriaDao.findByNombre(categorias.get(i));
+				nproductos = nproductos + categoria.get().getNumeroDeProductos();
+			}
+		}else {
+		categoria = categoriaDao.findByNombre(name);
+		nproductos = categoria.get().getNumeroDeProductos();
+		}
+		return nproductos;
+	}
 
 }

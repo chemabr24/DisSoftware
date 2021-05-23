@@ -1,5 +1,6 @@
 package edu.uclm.esi.carreful.http;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import edu.uclm.esi.carreful.dao.CorderDao;
 import edu.uclm.esi.carreful.dao.ProductDao;
 import edu.uclm.esi.carreful.model.Carrito;
 import edu.uclm.esi.carreful.model.Corder;
+import edu.uclm.esi.carreful.model.OrderedProduct;
 import edu.uclm.esi.carreful.model.Product;
 
 @RestController
@@ -39,39 +41,55 @@ public class CorderController extends CookiesController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		return ""; 
+
+		return "";
+
 	}
 
 	@PostMapping("/addAlCarrito/{nombre}")
 	public Carrito addAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.1")); //$NON-NLS-1$
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.1")); 
 		if (carrito == null) {
 			carrito = new Carrito();
-			request.getSession().setAttribute(Messages.getString("CorderController.2"), carrito); //$NON-NLS-1$
+			request.getSession().setAttribute(Messages.getString("CorderController.2"), carrito);
 		}
-		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.3"), "/")); //$NON-NLS-1$ //$NON-NLS-2$
-		if (producto.isPresent())
-			carrito.add(producto.get(), 1);
+		Collection<OrderedProduct> productos = carrito.getOproducts();
+		
+		OrderedProduct producto;
+		Optional<Product> oProducto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.0"), "/")); 
+		for(OrderedProduct prod : productos) {
+		if(prod.getName().equals(nombre)) {
+			 producto = prod;
+			 if(!oProducto.isPresent() || producto.getAmount()+1 > oProducto.get().getStock()) {
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay suficientes productos en stock de "+producto.getName());  
+				}
+		}
+		}
+		
+		
+		
+			carrito.add(oProducto.get(), 1);
+
 		return carrito;
 	}
 
 	@PostMapping("/subAlCarrito/{nombre}")
 	public Carrito minusAlCarrito(HttpServletRequest request, @PathVariable String nombre) {
-		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.5")); //$NON-NLS-1$
+		Carrito carrito = (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.5"));
 		if (carrito == null) {
-			request.getSession().setAttribute(Messages.getString("CorderController.6"), new Carrito()); //$NON-NLS-1$
+			request.getSession().setAttribute(Messages.getString("CorderController.6"), new Carrito()); 
 			return carrito;
 		}
-		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.7"), "/")); //$NON-NLS-1$ //$NON-NLS-2$
+		Optional<Product> producto = productDao.findByNombre(nombre.replace(Messages.getString("CorderController.7"), "/")); 
 		if (producto.isPresent())
 			carrito.sub(producto.get(), 1);
-		request.getSession().setAttribute(Messages.getString("CorderController.9"), carrito); //$NON-NLS-1$
+		request.getSession().setAttribute(Messages.getString("CorderController.9"), carrito);
 		return carrito;
 	}
 
 	@GetMapping("/getCarrito")
 	public Carrito getCarrito(HttpServletRequest request) {
-		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); //$NON-NLS-1$
+		return (Carrito) request.getSession().getAttribute(Messages.getString("CorderController.10")); 
 	}
 	
 	@GetMapping("/changeEstado/{corderid}")
@@ -85,7 +103,6 @@ public class CorderController extends CookiesController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-	
 	}
 	
 }

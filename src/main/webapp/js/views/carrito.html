@@ -1,52 +1,48 @@
-<div class="oj-hybrid-applayout-page">
-	<div class="oj-applayout-fixed-top">
-		<header role="banner" class="oj-hybrid-applayout-header">
-			<oj-module config="[[headerConfig]]"></oj-module>
-		</header>
-	</div>
-	<!-- This is where your main page content will be loaded -->
-	<div class="oj-applayout-content">
-		<div role="main" class="oj-hybrid-applayout-content">
-			<div class="container-responsive">
-				<div class="carrito" style="margin: 1% 5%;">
-					<div class="table-responsive">
-						<table class="table table-striped" style="text-align: center;">
-							<caption>Productos del carrito</caption>
-							<thead>
-								<th scope="col">Producto</th>
-								<th scope="col">Cantidad</th>
-								<th scope="col">Reducir unidad</th>
-								<th scope="col">Añadir unidad</th>
-								<th scope="col">Precio unidad</th>
-							</thead>
-							<tbody>
-								<!--  ko foreach : carrito  -->
-								<tr>
-									<td data-bind="html: name"></td>
-									<td data-bind="html: amount"></td>
-									<td>
-										<button class="btn btn-danger"
-											data-bind="click : function() { $parent.restar(name); }">-</button>
-									</td>
-									<td>
-										<button class="btn btn-success"
-											data-bind="click : function() { $parent.sumar(name); }">+</button>
-									</td>
-									<td data-bind="html: price"></td>
-								</tr>
-								<!--  /ko -->
-							</tbody>
-						</table>
-						<div class="float-end" style="margin: 1%;">
-							<p>
-								<label>Importe total</label>
-								<label data-bind="html : importe"></label>
-							</p>
-							<button class="btn btn-primary" data-bind="click : function() {pagar();}"
-								style=" margin: 1%;">Pagar</button>
-						</div>
-					</div>
-				</div>
+
+<div class="container-fluid">
+	<header role="banner" class="oj-hybrid-applayout-header">
+		<oj-module config="[[headerConfig]]"></oj-module>
+	</header>
+</div>
+<!-- This is where your main page content will be loaded -->
+<div class="container-responsive">
+	<div class="carrito" style="margin: 1% 5%;">
+		<div class="table-responsive">
+			<table class="table table-striped" style="text-align: center;">
+				<thead>
+					<th scope="col">Producto</th>
+					<th scope="col">Cantidad</th>
+					<th scope="col">Reducir unidad</th>
+					<th scope="col">Añadir unidad</th>
+					<th scope="col">Precio unidad</th>
+				</thead>
+				<tbody>
+					<!--  ko foreach : carrito  -->
+					<tr>
+						<td data-bind="html: name"></td>
+						<td data-bind="html: amount"></td>
+						<td>
+							<button class="btn btn-danger"
+								data-bind="click : function() { $parent.restar(name); }">-</button>
+						</td>
+						<td>
+							<button class="btn btn-success"
+								data-bind="click : function() { $parent.sumar(name); }">+</button>
+						</td>
+						<td data-bind="html: price"></td>
+					</tr>
+					<!--  /ko -->
+				</tbody>
+			</table>
+			<div data-bind="html : message" style="color : blue"></div>
+			<div data-bind="html : error" style="color : red"></div>
+			<div class="float-end" style="margin: 1%;">
+				<p>
+					<label>Importe total</label>
+					<label data-bind="html : importe"></label>
+				</p>
+				<button class="btn btn-primary" data-bind="click : pagar" style=" margin: 1%;">Pagar</button>
+
 			</div>
 		</div>
 	</div>
