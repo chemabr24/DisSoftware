@@ -9,9 +9,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Email {
 	private final Properties properties = new Properties();
+	private static final Log LOG = LogFactory.getLog(Email.class);
 
 	public void send(String destinatario, String subject, String body) {
 
@@ -21,7 +24,7 @@ public class Email {
 		String sender="CARdisoftware@gmail.com";		
 		String serverUser="CARdisoftware@gmail.com";
 		String userAutentication= "true";
-		String pwd="proyectocarreful";
+		String passcorreo="proyectocarreful";
 		String fallback="true";	
 
 		properties.put("mail.smtp.host", smtpHost);  
@@ -38,7 +41,7 @@ public class Email {
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				Authenticator auth = new AutentificadorSMTP(sender, pwd);
+				Authenticator auth = new AutentificadorSMTP(sender, passcorreo);
 				Session session = Session.getInstance(properties, auth);
 
 				MimeMessage msg = new MimeMessage(session);
@@ -49,7 +52,7 @@ public class Email {
 					msg.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
 					Transport.send(msg);
 				} catch (Exception e) {
-					System.err.println(e);
+					LOG.info(e);
 				}
 			}
 		};

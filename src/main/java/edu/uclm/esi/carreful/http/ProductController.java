@@ -36,13 +36,13 @@ public class ProductController extends CookiesController {
 		try {
 			JSONObject jso = new JSONObject(info);
 			Optional<Product> producto = productDao.findById(jso.getString("id"));
-			Optional<Categoria> categoria = categoriaDao.findByNombre(jso.getString("categoria"));
+			Optional<Categoria> categoria = categoriaDao.findByNombre(jso.getString("categoria")); 
 			Categoria categorianueva;
 			if (categoria.isPresent()) {
 				categorianueva = categoria.get();
 			} else {
 				categorianueva = new Categoria();
-				categorianueva.setNombre(jso.getString("categoria"));
+				categorianueva.setNombre(jso.getString("categoria")); 
 				categoriaDao.save(categorianueva);
 			}
 			Product productonuevo;
@@ -55,11 +55,11 @@ public class ProductController extends CookiesController {
 			}
 
 			productonuevo.setCategoria(categorianueva);
-			productonuevo.setCongelado(jso.getBoolean("congelado"));
-			productonuevo.setFoto(jso.getString("foto"));
-			productonuevo.setNombre(jso.getString("nombre"));
+			productonuevo.setCongelado(jso.getBoolean("congelado")); 
+			productonuevo.setFoto(jso.getString("foto")); 
+			productonuevo.setNombre(jso.getString("nombre")); 
 			productonuevo.setPrecio(jso.getDouble("precio"));
-			productonuevo.setStock(jso.getInt("stock"));
+			productonuevo.setStock(jso.getInt("stock")); 
 			productDao.save(productonuevo);
 			categoriaDao.save(categorianueva);
 
@@ -81,7 +81,7 @@ public class ProductController extends CookiesController {
 	public List<String> getCategorias() {
 		try {
 			List<String> categorias = categoriaDao.findAllNames();
-			categorias.add(0, "Todos");
+			categorias.add(0, Messages.getString("ProductController.8")); 
 			return categorias;
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -91,7 +91,7 @@ public class ProductController extends CookiesController {
 	@GetMapping("/getProductos/{categoria}")
 	public List<Product> getProductos(@PathVariable String categoria) {
 		try {
-			if (categoria.equals("Todos")) {
+			if (categoria.equals(Messages.getString("ProductController.7"))) { 
 				return productDao.findAll();
 			} else {
 				return productDao.findProduct(categoria);
@@ -108,7 +108,7 @@ public class ProductController extends CookiesController {
 			Optional<Product> optProduct = productDao.findById(nombre);
 			if (optProduct.isPresent())
 				return optProduct.get().getPrecio();
-			throw new GeneralException("El producto no existe");
+			throw new GeneralException(Messages.getString("ProductController.0"));
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -124,25 +124,34 @@ public class ProductController extends CookiesController {
 				productDao.deleteById(id);
 				categoriaDao.save(categoria);
 			}else {
-				throw new GeneralException("El producto no existe");
+				throw new GeneralException(Messages.getString("ProductController.1")); 
 			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 	@GetMapping("/numeroProductos/{name}")
-	public int getNumero_productos(@PathVariable String name) {
+	public int getNumeroProductos(@PathVariable String name) {
 		int nproductos=0;
 		Optional<Categoria> categoria;
-		if(name.equals("Todos")) {
+		if(name.equals(Messages.getString("ProductController.12"))) { 
 			List<String> categorias = categoriaDao.findAllNames();
 			for(int i=0;i<categorias.size();i++) {
 				 categoria = categoriaDao.findByNombre(categorias.get(i));
+				 if(categoria.isPresent()) {
 				nproductos = nproductos + categoria.get().getNumeroDeProductos();
+			}else {
+				throw new GeneralException(Messages.getString("ProductController.2")); 
+			}
 			}
 		}else {
+			
 		categoria = categoriaDao.findByNombre(name);
+		if(categoria.isPresent()) {
 		nproductos = categoria.get().getNumeroDeProductos();
+		}else {
+			throw new GeneralException(Messages.getString("ProductController.3")); 
+		}
 		}
 		return nproductos;
 	}

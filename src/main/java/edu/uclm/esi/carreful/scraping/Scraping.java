@@ -30,7 +30,7 @@ import edu.uclm.esi.carreful.model.Categoria;
 import edu.uclm.esi.carreful.model.Product;
 
 @Component
-public class App
+public class Scraping
 {	
 	private static final String SCROLL = "window.scrollTo(0, 2000)";
 	
