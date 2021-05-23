@@ -42,6 +42,8 @@ public class ProductController extends CookiesController {
 				categorianueva = categoria.get();
 			} else {
 				categorianueva = new Categoria();
+				categorianueva.setNombre(jso.getString("categoria"));
+				categoriaDao.save(categorianueva);
 			}
 			Product productonuevo;
 			if (producto.isPresent()) {

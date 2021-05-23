@@ -147,7 +147,8 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 					url: "product/add",
 					type: "post",
 					contentType: 'application/json',
-					success: function (response) {
+					success: function () {
+						self.getCategorias();
 						self.getProductCategoria();
 						self.message("Producto guardado")
 						self.getNumeroProductos(self.selectedCategory());
@@ -197,9 +198,9 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				super.getCategorias();
 				this.isLogged();
 				super.getNumeroProductos("Todos");
-			};
-
 			}
+
+			
 
 
 			disconnected() {
