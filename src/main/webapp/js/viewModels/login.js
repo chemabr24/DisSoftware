@@ -48,6 +48,8 @@ define([ 'knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 		
 		recoverPwd() {
 			var self = this;
+			self.message("");
+			self.error("");
 			var data = {
 				url : "user/recoverPwd?email=" + self.email(),
 				type : "get",
