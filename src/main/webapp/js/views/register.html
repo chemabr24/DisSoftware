@@ -7,24 +7,34 @@
 	<!-- This is where your main page content will be loaded -->
 	<div class="oj-applayout-content">
 		<div role="main" class="oj-hybrid-applayout-content">
-			<div class="oj-hybrid-padding">
-				<h1>Creación de cuenta</h1>
-				<div>
-					<input type="text" placeholder="Nombre de usuario" data-bind="value : userName"> 
-					<input type="email" placeholder="Correo electrónico" data-bind="value : email">
-					<input type="password" placeholder="Contraseña" data-bind="value : pwd1"> <input type="password"
-						placeholder="Repite contraseña" data-bind="value : pwd2">
+			<body>
+				<div class="containerr">
+				  <h2 class="register-title">Registrarse</h2>
+				  <form class="register-container">
+				<div class="form-group">
+					<label class="col-sm-2 col-form-label">Usuario: </label>
+        			<input type="text" placeholder="Nombre de usuario" data-bind="value : userName"> 
+					<label>E-mail: </label>
+					<input type="text" placeholder="Correo electrónico" data-bind="value : email">
+					<label>Password: </label>
+					<input type="password" placeholder="Contraseña" data-bind="value : pwd1"> 
+					<label>Repeat Password: </label>
+					<input type="password" placeholder="Repite contraseña" data-bind="value : pwd2">
+					<label>Foto: </label>
 					<input type="file" size="50" data-bind="event : {change : setPicture }"><br>
 					<!-- ko if : picture -->
 					<img data-bind="attr: { src : picture}" width="100" height="100">
 					<!-- /ko -->
-					<button id="btnCrearCuenta" data-bind="click : register">Crear
-						cuenta</button>
+					<br>
+					<div class="form-group">
+					<p><input type="submit" class="submit" value="Registrar" data-bind="click : register"></p>
 					<div class="oj-sm-12" data-bind="html : message" style="color : blue">
 					</div>
 					<div class="oj-sm-12" data-bind="html : error" style="color : red">
 					</div>
+					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>

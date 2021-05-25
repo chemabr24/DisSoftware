@@ -142,3 +142,99 @@
   border-color: #888;
 }
 
+.containerr {
+  width: 400px;
+  margin: 16px auto;
+  font-size: 16px;
+  padding: 16px;
+}
+
+.register-title,
+.containerr p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.register-container {
+  width: 400;
+  margin-right: auto;
+  margin-left: auto;
+  border: 12px solid transparent;
+  background: #ebebeb;
+  padding: 10 px;
+  display: grid;
+  
+}
+
+.register-title {
+  background: #23bfca;
+  padding: 16px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.containerr p {
+  padding: 6px;
+}
+
+.containerr input {
+  box-sizing: border-box;
+  padding: 6px;
+  display: block;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 5%;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+}
+
+.containerr input[type="text"],
+.containerr input[type="password"]{
+  width: 100%;
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+  margin-top: 5px;
+}
+.containerr select{
+    box-sizing: border-box;
+  padding: 6px;
+  display: block;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 5%;
+  outline: 0;
+  font-family: inherit;
+  font-size: 0.95em;
+}
+
+.containerr input[type="text"]:focus,
+.containerr input[type="password"]:focus{
+    border-color: #888;
+}
+
+.containerr input[type="submit"] {
+  background: #23bfca;
+  border-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  left: 50%;
+  border-radius: 10px;
+}
+
+.containerr input[type="submit"]:hover {
+  background: #1e7bb1;
+}
+
+
+/* Buttons' focus effect */
+
+.containerr input[type="submit"]:focus {
+  border-color: #1e7bb1;
+}
