@@ -32,7 +32,7 @@ define(['knockout', 'appController', 'ojs/ojmodule-element-utils', 'accUtils',
 				self.error = ko.observable(null);
 
 				self.pageNumber = ko.observable(0);
-				self.nbPerPage = 16;
+				self.nbPerPage = 15;
 				self.totalPages = ko.computed(function () {
 					let div = Math.floor(self.productos().length / self.nbPerPage);
 					div += self.productos().length % self.nbPerPage > 0 ? 1 : 0;
